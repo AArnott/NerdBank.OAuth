@@ -14,6 +14,9 @@ namespace NerdBank.OAuth {
 	using System.Threading.Tasks;
 	using Validation;
 
+	/// <summary>
+	/// A base class for implementing OAuth 1.0 Consumers.
+	/// </summary>
 	public abstract class OAuth1ConsumerBase {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OAuth1ConsumerBase"/> class.
