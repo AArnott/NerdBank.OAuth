@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{620FC3
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdBank.OAuth.Tests", "NerdBank.OAuth.Tests\NerdBank.OAuth.Tests.csproj", "{EA60507D-799A-4DFC-B779-4D35E8141B91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{3012DF37-78C8-49A9-8C98-39E60DA9B500}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3012DF37-78C8-49A9-8C98-39E60DA9B500}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3012DF37-78C8-49A9-8C98-39E60DA9B500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA60507D-799A-4DFC-B779-4D35E8141B91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA60507D-799A-4DFC-B779-4D35E8141B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA60507D-799A-4DFC-B779-4D35E8141B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA60507D-799A-4DFC-B779-4D35E8141B91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
