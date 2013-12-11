@@ -17,6 +17,15 @@
 			var consumer = this.CreateInstance();
 		}
 
+		[TestMethod]
+		public async Task StartAuthorizationAsyncBeforeInitialization() {
+			var consumer = this.CreateInstance();
+			try {
+				await consumer.StartAuthorizationAsync();
+				Assert.Fail("Expected exception not thrown.");
+			} catch (InvalidOperationException) { }
+		}
+
 		protected abstract OAuth1Consumer CreateInstance();
 	}
 }

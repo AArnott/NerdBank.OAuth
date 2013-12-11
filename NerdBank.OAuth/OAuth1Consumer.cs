@@ -123,6 +123,8 @@ namespace NerdBank.OAuth {
 		/// <see cref="CompleteAuthorizationAsync"/> method is called.
 		/// </remarks>
 		public async Task<Uri> StartAuthorizationAsync(Uri callbackUri = null, CancellationToken cancellationToken = default(CancellationToken)) {
+			Verify.Operation(this.TemporaryCredentialsEndpoint != null, "TemporaryCredentialsEndpoint must be set first.");
+
 			var authorizingHandler = CreateOAuthMessageHandler();
 			using (var httpClient = new HttpClient(authorizingHandler)) {
 				var requestUri = new UriBuilder(TemporaryCredentialsEndpoint);
