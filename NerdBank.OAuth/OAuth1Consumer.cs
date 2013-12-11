@@ -122,7 +122,10 @@ namespace NerdBank.OAuth {
 		/// Obtains temporary credentials and a start URL to direct the user to
 		/// in order to authorize the consumer to access the user's resources.
 		/// </summary>
-		/// <param name="callbackUri">The URL the service provider should redirect the user agent to after authorization. This becomes the value of the oauth_callback parameter.</param>
+		/// <param name="callbackUri">
+		/// The URL the service provider should redirect the user agent to after authorization. This becomes the value of the oauth_callback parameter.
+		/// May be "oob" to indicate an out-of-band configuration.
+		/// </param>
 		/// <param name="cancellationToken">A token that may be canceled to abort.</param>
 		/// <returns>A task whose result will be the authorization URL.</returns>
 		/// <remarks>
@@ -130,7 +133,8 @@ namespace NerdBank.OAuth {
 		/// properties. These values should be preserved (or restored) till the
 		/// <see cref="CompleteAuthorizationAsync"/> method is called.
 		/// </remarks>
-		public async Task<Uri> StartAuthorizationAsync(Uri callbackUri = null, CancellationToken cancellationToken = default(CancellationToken)) {
+		public async Task<Uri> StartAuthorizationAsync(string callbackUri, CancellationToken cancellationToken = default(CancellationToken)) {
+			Requires.NotNullOrEmpty(callbackUri, "callbackUri");
 			Verify.Operation(this.TemporaryCredentialsEndpoint != null, "TemporaryCredentialsEndpoint must be set first.");
 			Verify.Operation(this.ConsumerKey != null, "ConsumerKey must be initialized first.");
 			Verify.Operation(this.ConsumerSecret != null, "ConsumerSecret must be initialized first.");
@@ -140,9 +144,7 @@ namespace NerdBank.OAuth {
 			authorizingHandler.AccessTokenSecret = string.Empty;
 			using (var httpClient = new HttpClient(authorizingHandler)) {
 				var requestUri = new UriBuilder(TemporaryCredentialsEndpoint);
-				if (callbackUri != null) {
-					requestUri.AppendQueryArgument("oauth_callback", callbackUri.AbsoluteUri);
-				}
+				requestUri.AppendQueryArgument("oauth_callback", callbackUri);
 
 				var response = await httpClient.PostAsync(requestUri.Uri, new ByteArrayContent(new byte[0]), cancellationToken);
 				ProtocolException.ThrowIf(response.Content == null, "Response missing the expected body.");
@@ -158,6 +160,25 @@ namespace NerdBank.OAuth {
 				authorizationBuilder.AppendQueryArgument("oauth_token", this.TemporaryToken);
 				return authorizationBuilder.Uri;
 			}
+		}
+
+		/// <summary>
+		/// Obtains temporary credentials and a start URL to direct the user to
+		/// in order to authorize the consumer to access the user's resources.
+		/// </summary>
+		/// <param name="callbackUri">
+		/// The URL the service provider should redirect the user agent to after authorization. This becomes the value of the oauth_callback parameter.
+		/// </param>
+		/// <param name="cancellationToken">A token that may be canceled to abort.</param>
+		/// <returns>A task whose result will be the authorization URL.</returns>
+		/// <remarks>
+		/// This method sets the <see cref="TemporaryToken"/> and <see cref="TemporarySecret"/>
+		/// properties. These values should be preserved (or restored) till the
+		/// <see cref="CompleteAuthorizationAsync"/> method is called.
+		/// </remarks>
+		public Task<Uri> StartAuthorizationAsync(Uri callbackUri, CancellationToken cancellationToken = default(CancellationToken)) {
+			Requires.NotNull(callbackUri, "callbackUri");
+			return this.StartAuthorizationAsync(callbackUri.AbsoluteUri, cancellationToken);
 		}
 
 		/// <summary>

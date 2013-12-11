@@ -2,11 +2,12 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Net.Http;
 	using System.Text;
+	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
 #if DESKTOP
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
-	using System.Net.Http;
 #else
 	using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
@@ -20,7 +21,7 @@
 		protected const string TempCredToken = "tempcred token+%";
 		protected const string TempCredTokenSecret = "tempcred tokensecret+%";
 
-		protected Func<HttpRequestMessage, HttpResponseMessage> MockHandler { get; set; }
+		protected Func<HttpRequestMessage, Task<HttpResponseMessage>> MockHandler { get; set; }
 
 		protected HttpMessageHandler MockMessageHandler { get; private set; }
 
@@ -40,7 +41,7 @@
 			consumer.ConsumerKey = ConsumerKey;
 			consumer.ConsumerSecret = ConsumerSecret;
 			try {
-				await consumer.StartAuthorizationAsync();
+				await consumer.StartAuthorizationAsync("oob");
 				Assert.Fail("Expected exception not thrown.");
 			} catch (InvalidOperationException) { }
 		}
@@ -51,16 +52,20 @@
 			consumer.ConsumerKey = ConsumerKey;
 			consumer.TemporaryCredentialsEndpoint = TemporaryCredentialsEndpoint;
 			try {
-				await consumer.StartAuthorizationAsync();
+				await consumer.StartAuthorizationAsync("oob");
 				Assert.Fail("Expected exception not thrown.");
 			} catch (InvalidOperationException) { }
 		}
 
 		[TestMethod]
 		public async Task StartAuthorizationAsync() {
-			this.MockHandler = req => {
+			this.MockHandler = async req => {
 				Assert.AreEqual(TemporaryCredentialsEndpoint, req.RequestUri);
 				Assert.AreEqual(HttpMethod.Post, req.Method);
+				Assert.IsTrue(Regex.IsMatch(req.Headers.Authorization.Parameter, @"\boauth_callback=""oob"""));
+				string requestContent = await req.Content.ReadAsStringAsync();
+				Assert.AreEqual(string.Empty, requestContent);
+
 				return new HttpResponseMessage {
 					Content = new FormUrlEncodedContent(
 						new Dictionary<string, string> {
@@ -77,7 +82,7 @@
 			consumer.ConsumerSecret = ConsumerSecret;
 			consumer.TemporaryCredentialsEndpoint = TemporaryCredentialsEndpoint;
 			consumer.AuthorizationEndpoint = AuthorizationEndpoint;
-			var authUri = await consumer.StartAuthorizationAsync();
+			var authUri = await consumer.StartAuthorizationAsync("oob");
 			Assert.AreEqual(AuthorizationEndpoint.AbsoluteUri + "?oauth_token=" + Uri.EscapeDataString(TempCredToken), authUri.AbsoluteUri);
 		}
 
@@ -91,7 +96,7 @@
 			}
 
 			protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken) {
-				return Task.FromResult(this.tests.MockHandler(request));
+				return this.tests.MockHandler(request);
 			}
 		}
 	}
