@@ -53,12 +53,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OAuth1ConsumerBaseTests.cs" />
+    <Compile Include="OAuth1ConsumerDesktopTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NerdBank.OAuth.Desktop\NerdBank.OAuth.Desktop.csproj">
+      <Project>{f7cb791c-9a69-4771-957b-48cee7b14b87}</Project>
+      <Name>NerdBank.OAuth.Desktop</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NerdBank.OAuth\NerdBank.OAuth.csproj">
       <Project>{3012df37-78c8-49a9-8c98-39e60da9b500}</Project>
       <Name>NerdBank.OAuth</Name>
