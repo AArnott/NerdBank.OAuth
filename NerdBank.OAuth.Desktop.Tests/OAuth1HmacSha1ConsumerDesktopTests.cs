@@ -7,9 +7,9 @@
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	[TestClass]
-	public class OAuth1ConsumerDesktopTests : OAuth1ConsumerTestsBase {
+	public class OAuth1HmacSha1ConsumerDesktopTests : OAuth1HmacSha1ConsumerTestsBase {
 		protected override OAuth1Consumer CreateInstance() {
-			return new OAuth1Consumer();
+			return new OAuth1HmacSha1Consumer();
 		}
 	}
 }

@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="OAuth1ConsumerTestsBase.cs" />
     <Compile Include="OAuth1ConsumerDesktopTests.cs" />
+    <Compile Include="OAuth1HmacSha1ConsumerDesktopTests.cs" />
+    <Compile Include="OAuth1HmacSha1ConsumerTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

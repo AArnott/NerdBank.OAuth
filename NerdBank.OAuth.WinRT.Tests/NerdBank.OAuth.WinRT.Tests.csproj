@@ -117,7 +117,10 @@
     <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1ConsumerTestsBase.cs">
       <Link>OAuth1ConsumerTestsBase.cs</Link>
     </Compile>
-    <Compile Include="OAuth1ConsumerWinRTTests.cs" />
+    <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1HmacSha1ConsumerTestsBase.cs">
+      <Link>OAuth1HmacSha1ConsumerTestsBase.cs</Link>
+    </Compile>
+    <Compile Include="OAuth1HmacSha1ConsumerWinRTTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

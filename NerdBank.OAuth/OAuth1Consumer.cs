@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OAuth1ConsumerBase.cs" company="Andrew Arnott">
+// <copyright file="OAuth1Consumer.cs" company="Andrew Arnott">
 //     Copyright (c) Andrew Arnott. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -15,20 +15,20 @@ namespace NerdBank.OAuth {
 	using Validation;
 
 	/// <summary>
-	/// A base class for implementing OAuth 1.0 Consumers.
+	/// An OAuth 1.0 Consumer that signs requests using the PLAINTEXT signing algorithm.
 	/// </summary>
-	public abstract class OAuth1ConsumerBase {
+	public class OAuth1Consumer {
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuth1ConsumerBase"/> class.
+		/// Initializes a new instance of the <see cref="OAuth1Consumer"/> class.
 		/// </summary>
-		protected OAuth1ConsumerBase() { }
+		public OAuth1Consumer() { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuth1ConsumerBase"/> class.
+		/// Initializes a new instance of the <see cref="OAuth1Consumer"/> class.
 		/// </summary>
 		/// <param name="consumerKey">The consumer key previously obtained from the service provider.</param>
 		/// <param name="consumerSecret">The consumer secret previously obtained from the service provider.</param>
-		protected OAuth1ConsumerBase(string consumerKey, string consumerSecret) {
+		public OAuth1Consumer(string consumerKey, string consumerSecret) {
 			Requires.NotNullOrEmpty(consumerKey, "consumerKey");
 			Requires.NotNull(consumerSecret, "consumerSecret");
 
@@ -188,7 +188,7 @@ namespace NerdBank.OAuth {
 		/// HTTP headers to request messages to apply OAuth 1.0 obtained authorization.
 		/// </summary>
 		/// <returns>The OAuth 1.0 authorizing HTTP handler.</returns>
-		protected OAuth1HmacSha1HttpMessageHandler CreateOAuthMessageHandler() {
+		protected OAuth1HttpMessageHandlerBase CreateOAuthMessageHandler() {
 			return this.CreateOAuthMessageHandler(new HttpClientHandler());
 		}
 
@@ -198,23 +198,28 @@ namespace NerdBank.OAuth {
 		/// </summary>
 		/// <param name="innerHandler">The inner handler to use for transmitting the HTTP request.</param>
 		/// <returns>The OAuth 1.0 authorizing HTTP handler.</returns>
-		protected OAuth1HmacSha1HttpMessageHandler CreateOAuthMessageHandler(HttpMessageHandler innerHandler) {
-			var authorizingHandler = new OAuth1HmacSha1HttpMessageHandler(innerHandler) {
-				ConsumerKey = ConsumerKey,
-				ConsumerSecret = ConsumerSecret,
-				AccessToken = this.AccessToken,
-				AccessTokenSecret = this.AccessTokenSecret,
-				HmacSha1 = this.ComputeHmacSha1,
-			};
+		protected OAuth1HttpMessageHandlerBase CreateOAuthMessageHandler(HttpMessageHandler innerHandler) {
+			var authorizingHandler = this.CreateOAuthMessageHandlerCore(innerHandler);
+			authorizingHandler.ConsumerKey = this.ConsumerKey;
+			authorizingHandler.ConsumerSecret = this.ConsumerSecret;
+			authorizingHandler.AccessToken = this.AccessToken;
+			authorizingHandler.AccessTokenSecret = this.AccessTokenSecret;
 			return authorizingHandler;
 		}
 
 		/// <summary>
-		/// Computes the message authentication code for the specified data and key using the HMAC-SHA1 algorithm.
+		/// Creates an <see cref="HttpMessageHandler"/> that automatically applies the required
+		/// HTTP headers to request messages to apply OAuth 1.0 obtained authorization.
 		/// </summary>
-		/// <param name="data">The data to be signed.</param>
-		/// <param name="key">The key used for computing the authentication code.</param>
-		/// <returns>The message authentication code.</returns>
-		protected abstract byte[] ComputeHmacSha1(byte[] data, byte[] key);
+		/// <param name="innerHandler">The inner handler to use for transmitting the HTTP request.</param>
+		/// <returns>The OAuth 1.0 authorizing HTTP handler.</returns>
+		/// <remarks>
+		/// Implementations of this method need not initialize the standard properties on the
+		/// instance. The caller will initialize <see cref="ConsumerKey"/>, <see cref="ConsumerSecret"/>,
+		/// <see cref="AccessToken"/> and <see cref="AccessTokenSecret"/>.
+		/// </remarks>
+		protected virtual OAuth1HttpMessageHandlerBase CreateOAuthMessageHandlerCore(HttpMessageHandler innerHandler) {
+			return new OAuth1PlainTextMessageHandler(innerHandler);
+		}
 	}
 }

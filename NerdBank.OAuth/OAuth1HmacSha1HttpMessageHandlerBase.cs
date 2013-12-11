@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OAuth1HmacSha1HttpMessageHandler.cs" company="Andrew Arnott">
+// <copyright file="OAuth1HmacSha1HttpMessageHandlerBase.cs" company="Andrew Arnott">
 //     Copyright (c) Andrew Arnott. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -17,25 +17,28 @@ namespace NerdBank.OAuth {
 	/// A delegating HTTP handler that signs outgoing HTTP requests 
 	/// with an HMAC-SHA1 signature.
 	/// </summary>
-	public class OAuth1HmacSha1HttpMessageHandler : OAuth1HttpMessageHandlerBase {
+	public abstract class OAuth1HmacSha1HttpMessageHandlerBase : OAuth1HttpMessageHandlerBase {
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuth1HmacSha1HttpMessageHandler"/> class.
+		/// Initializes a new instance of the <see cref="OAuth1HmacSha1HttpMessageHandlerBase"/> class.
 		/// </summary>
-		public OAuth1HmacSha1HttpMessageHandler() {
+		protected OAuth1HmacSha1HttpMessageHandlerBase() {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuth1HmacSha1HttpMessageHandler"/> class.
+		/// Initializes a new instance of the <see cref="OAuth1HmacSha1HttpMessageHandlerBase"/> class.
 		/// </summary>
 		/// <param name="innerHandler">The inner handler which is responsible for processing the HTTP response messages.</param>
-		public OAuth1HmacSha1HttpMessageHandler(HttpMessageHandler innerHandler)
+		protected OAuth1HmacSha1HttpMessageHandlerBase(HttpMessageHandler innerHandler)
 			: base(innerHandler) {
 		}
 
 		/// <summary>
-		/// Gets or sets the function that computes the HMAC-SHA1 hash of the given buffer and key.
+		/// Computes the message authentication code for the specified data and key using the HMAC-SHA1 algorithm.
 		/// </summary>
-		public Func<byte[], byte[], byte[]> HmacSha1 { get; set; }
+		/// <param name="data">The data to be signed.</param>
+		/// <param name="key">The key used for computing the authentication code.</param>
+		/// <returns>The message authentication code.</returns>
+		protected abstract byte[] ComputeHmacSha1(byte[] data, byte[] key);
 
 		/// <summary>
 		/// Gets the signature method to include in the oauth_signature_method parameter.
@@ -56,10 +59,9 @@ namespace NerdBank.OAuth {
 		/// </returns>
 		protected override byte[] Sign(byte[] signedPayload) {
 			Requires.NotNull(signedPayload, "signedPayload");
-			Verify.Operation(this.HmacSha1 != null, "HmacSha1 must be set first.");
 
 			byte[] key = Encoding.UTF8.GetBytes(this.GetConsumerAndTokenSecretString());
-			return this.HmacSha1(signedPayload, key);
+			return this.ComputeHmacSha1(signedPayload, key);
 		}
 	}
 }

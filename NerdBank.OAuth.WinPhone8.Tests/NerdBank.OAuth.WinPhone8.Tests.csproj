@@ -75,11 +75,14 @@
     <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1ConsumerTestsBase.cs">
       <Link>OAuth1ConsumerTestsBase.cs</Link>
     </Compile>
+    <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1HmacSha1ConsumerTestsBase.cs">
+      <Link>OAuth1HmacSha1ConsumerTestsBase.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="OAuth1ConsumerWinPhoneTests.cs" />
+    <Compile Include="OAuth1HmacSha1ConsumerWinPhoneTests.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

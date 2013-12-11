@@ -35,9 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="OAuth1ConsumerBase.cs" />
+    <Compile Include="OAuth1Consumer.cs" />
     <Compile Include="NameValueCollection.cs" />
-    <Compile Include="OAuth1HmacSha1HttpMessageHandler.cs" />
+    <Compile Include="OAuth1HmacSha1HttpMessageHandlerBase.cs" />
     <Compile Include="OAuth1HttpMessageHandlerBase.cs" />
     <Compile Include="OAuth1PlainTextMessageHandler.cs" />
     <Compile Include="PortableUtilities.cs" />

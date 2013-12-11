@@ -11,7 +11,7 @@
 #endif
 
 	[TestClass]
-	public abstract class OAuth1ConsumerTestsBase {
+	public abstract class OAuth1HmacSha1ConsumerTestsBase {
 		[TestMethod]
 		public void DefaultCtor() {
 			var consumer = this.CreateInstance();

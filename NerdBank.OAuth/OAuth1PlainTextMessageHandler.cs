@@ -9,6 +9,7 @@ namespace NerdBank.OAuth {
 	using System.Collections.Generic;
 	using System.Collections.Specialized;
 	using System.Linq;
+	using System.Net.Http;
 	using System.Text;
 	using System.Threading.Tasks;
 
@@ -17,6 +18,20 @@ namespace NerdBank.OAuth {
 	/// with the PLAINTEXT signature.
 	/// </summary>
 	public class OAuth1PlainTextMessageHandler : OAuth1HttpMessageHandlerBase {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OAuth1PlainTextMessageHandler"/> class.
+		/// </summary>
+		public OAuth1PlainTextMessageHandler() {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OAuth1PlainTextMessageHandler"/> class.
+		/// </summary>
+		/// <param name="innerHandler">The inner handler.</param>
+		public OAuth1PlainTextMessageHandler(HttpMessageHandler innerHandler)
+			: base(innerHandler) {
+		}
+
 		/// <summary>
 		/// Gets the signature method to include in the oauth_signature_method parameter.
 		/// </summary>

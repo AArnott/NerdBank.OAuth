@@ -65,7 +65,7 @@ namespace NerdBank.OAuth {
 		/// </summary>
 		protected OAuth1HttpMessageHandlerBase() {
 			this.NonceLength = DefaultNonceLength;
-			this.Location = DefaultParametersLocation;
+			this.ParametersLocation = DefaultParametersLocation;
 		}
 
 		/// <summary>
@@ -75,7 +75,7 @@ namespace NerdBank.OAuth {
 		protected OAuth1HttpMessageHandlerBase(HttpMessageHandler innerHandler)
 			: base(innerHandler) {
 			this.NonceLength = DefaultNonceLength;
-			this.Location = DefaultParametersLocation;
+			this.ParametersLocation = DefaultParametersLocation;
 		}
 
 		/// <summary>
@@ -96,7 +96,7 @@ namespace NerdBank.OAuth {
 		/// <summary>
 		/// Gets or sets the location to add OAuth parameters to outbound HTTP requests.
 		/// </summary>
-		public OAuthParametersLocation Location { get; set; }
+		public OAuthParametersLocation ParametersLocation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the consumer key.
@@ -160,7 +160,7 @@ namespace NerdBank.OAuth {
 			oauthParameters.Add("oauth_signature", signature);
 
 			// Add parameters and signature to request.
-			switch (this.Location) {
+			switch (this.ParametersLocation) {
 				case OAuthParametersLocation.AuthorizationHttpHeader:
 					// Some oauth parameters may have been put in the query string of the original message.
 					// We want to move any that we find into the authorization header.

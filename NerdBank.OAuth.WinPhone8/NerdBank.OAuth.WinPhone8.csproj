@@ -85,7 +85,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="OAuth1Consumer.cs" />
+    <Compile Include="OAuth1HmacSha1Consumer.cs" />
+    <Compile Include="OAuth1HmacSha1HttpMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

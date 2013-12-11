@@ -6,9 +6,9 @@
 	using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 	[TestClass]
-	public class OAuth1ConsumerWinRTTests : OAuth1ConsumerTestsBase {
-		protected override OAuth1ConsumerBase CreateInstance() {
-			return new OAuth1Consumer();
+	public class OAuth1HmacSha1ConsumerWinRTTests : OAuth1HmacSha1ConsumerTestsBase {
+		protected override OAuth1Consumer CreateInstance() {
+			return new OAuth1HmacSha1Consumer();
 		}
 	}
 }
