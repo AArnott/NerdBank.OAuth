@@ -21,14 +21,17 @@ namespace NerdBank.OAuth {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OAuth1Consumer"/> class.
 		/// </summary>
-		public OAuth1Consumer() { }
+		public OAuth1Consumer() {
+			this.HttpMessageHandler = new HttpClientHandler();
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OAuth1Consumer"/> class.
 		/// </summary>
 		/// <param name="consumerKey">The consumer key previously obtained from the service provider.</param>
 		/// <param name="consumerSecret">The consumer secret previously obtained from the service provider.</param>
-		public OAuth1Consumer(string consumerKey, string consumerSecret) {
+		public OAuth1Consumer(string consumerKey, string consumerSecret)
+			: this() {
 			Requires.NotNullOrEmpty(consumerKey, "consumerKey");
 			Requires.NotNull(consumerSecret, "consumerSecret");
 
@@ -111,6 +114,11 @@ namespace NerdBank.OAuth {
 		}
 
 		/// <summary>
+		/// Gets or sets the message handler to use for OAuth 1.0 protocol requests.
+		/// </summary>
+		public HttpMessageHandler HttpMessageHandler { get; set; }
+
+		/// <summary>
 		/// Obtains temporary credentials and a start URL to direct the user to
 		/// in order to authorize the consumer to access the user's resources.
 		/// </summary>
@@ -124,8 +132,12 @@ namespace NerdBank.OAuth {
 		/// </remarks>
 		public async Task<Uri> StartAuthorizationAsync(Uri callbackUri = null, CancellationToken cancellationToken = default(CancellationToken)) {
 			Verify.Operation(this.TemporaryCredentialsEndpoint != null, "TemporaryCredentialsEndpoint must be set first.");
+			Verify.Operation(this.ConsumerKey != null, "ConsumerKey must be initialized first.");
+			Verify.Operation(this.ConsumerSecret != null, "ConsumerSecret must be initialized first.");
 
 			var authorizingHandler = CreateOAuthMessageHandler();
+			authorizingHandler.AccessToken = string.Empty;
+			authorizingHandler.AccessTokenSecret = string.Empty;
 			using (var httpClient = new HttpClient(authorizingHandler)) {
 				var requestUri = new UriBuilder(TemporaryCredentialsEndpoint);
 				if (callbackUri != null) {
@@ -133,6 +145,7 @@ namespace NerdBank.OAuth {
 				}
 
 				var response = await httpClient.PostAsync(requestUri.Uri, new ByteArrayContent(new byte[0]), cancellationToken);
+				ProtocolException.ThrowIf(response.Content == null, "Response missing the expected body.");
 				var urlEncodedArgsResponse = await response.Content.ReadAsStringAsync();
 				var argsResponse = PortableUtilities.ParseUrlEncodedString(urlEncodedArgsResponse);
 				response.EnsureSuccessStatusCode();
@@ -191,7 +204,7 @@ namespace NerdBank.OAuth {
 		/// </summary>
 		/// <returns>The OAuth 1.0 authorizing HTTP handler.</returns>
 		protected OAuth1HttpMessageHandlerBase CreateOAuthMessageHandler() {
-			return this.CreateOAuthMessageHandler(new HttpClientHandler());
+			return this.CreateOAuthMessageHandler(this.HttpMessageHandler ?? new HttpClientHandler());
 		}
 
 		/// <summary>

@@ -28,7 +28,7 @@
 
 		/// <inheritdoc/>
 		protected override byte[] ComputeHmacSha1(byte[] data, byte[] key) {
-			using (var hmac = HMAC.Create("HMAC-SHA1")) {
+			using (var hmac = HMAC.Create("HMACSHA1")) {
 				hmac.Key = key;
 				return hmac.ComputeHash(data);
 			}

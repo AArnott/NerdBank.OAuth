@@ -11,21 +11,6 @@
 #endif
 
 	[TestClass]
-	public abstract class OAuth1HmacSha1ConsumerTestsBase {
-		[TestMethod]
-		public void DefaultCtor() {
-			var consumer = this.CreateInstance();
-		}
-
-		[TestMethod]
-		public async Task StartAuthorizationAsyncBeforeInitialization() {
-			var consumer = this.CreateInstance();
-			try {
-				await consumer.StartAuthorizationAsync();
-				Assert.Fail("Expected exception not thrown.");
-			} catch (InvalidOperationException) { }
-		}
-
-		protected abstract OAuth1Consumer CreateInstance();
+	public abstract class OAuth1HmacSha1ConsumerTestsBase : OAuth1ConsumerTestsBase {
 	}
 }
