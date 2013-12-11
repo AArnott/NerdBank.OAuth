@@ -2,6 +2,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Net;
 	using System.Text;
 	using System.Threading.Tasks;
 	using Validation;
@@ -185,7 +186,8 @@
 			foreach (var pair in queryString.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries)) {
 				var tuple = pair.Split('=');
 				if (tuple.Length == 2) {
-					result.Add(Uri.UnescapeDataString(tuple[0]), Uri.UnescapeDataString(tuple[1]));
+					// http://blogs.msdn.com/b/yangxind/archive/2006/11/09/don-t-use-net-system-uri-unescapedatastring-in-url-decoding.aspx
+					result.Add(WebUtility.UrlDecode(tuple[0]), WebUtility.UrlDecode(tuple[1]));
 				}
 			}
 

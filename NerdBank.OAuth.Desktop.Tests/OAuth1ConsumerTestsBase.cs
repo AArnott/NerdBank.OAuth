@@ -17,8 +17,8 @@
 		protected static readonly Uri AuthorizationEndpoint = new Uri("http://localhost/auth");
 		protected const string ConsumerKey = "some key";
 		protected const string ConsumerSecret = "some secret";
-		protected const string TempCredToken = "tempcred token";
-		protected const string TempCredTokenSecret = "tempcred tokensecret";
+		protected const string TempCredToken = "tempcred token+%";
+		protected const string TempCredTokenSecret = "tempcred tokensecret+%";
 
 		protected Func<HttpRequestMessage, HttpResponseMessage> MockHandler { get; set; }
 
@@ -78,7 +78,7 @@
 			consumer.TemporaryCredentialsEndpoint = TemporaryCredentialsEndpoint;
 			consumer.AuthorizationEndpoint = AuthorizationEndpoint;
 			var authUri = await consumer.StartAuthorizationAsync();
-			Assert.IsNotNull(authUri);
+			Assert.AreEqual(AuthorizationEndpoint.AbsoluteUri + "?oauth_token=" + Uri.EscapeDataString(TempCredToken), authUri.AbsoluteUri);
 		}
 
 		protected abstract OAuth1Consumer CreateInstance();
