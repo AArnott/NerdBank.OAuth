@@ -72,6 +72,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1ConsumerTestsBase.cs">
+      <Link>OAuth1ConsumerTestsBase.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>

@@ -4,12 +4,12 @@
 	using System.Linq;
 	using System.Text;
 	using System.Threading.Tasks;
-	using Xunit;
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-	public class OAuth1ConsumerDesktopTests {
-		[Fact]
-		public void DefaultCtor() {
-			var consumer = new OAuth1Consumer();
+	[TestClass]
+	public class OAuth1ConsumerDesktopTests : OAuth1ConsumerTestsBase {
+		protected override OAuth1ConsumerBase CreateInstance() {
+			return new OAuth1Consumer();
 		}
 	}
 }
