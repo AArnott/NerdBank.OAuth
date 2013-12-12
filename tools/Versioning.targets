@@ -3,6 +3,7 @@
 	<!-- Import this .targets file to automatically generate AssemblyVersion attributes.
 	     It also sets several MSBuild properties that may be useful in other build steps. -->
 	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFile)</MSBuildAllProjects>
 		<VersionCsFile>$(IntermediatePath)\$(AssemblyName).Version.cs</VersionCsFile>
 		<NoWarn>$(NoWarn);1607</NoWarn>
 	</PropertyGroup>
@@ -42,7 +43,7 @@
 		<Message Importance="low" Text="NuGetPackageVersion: $(NuGetPackageVersion)" />
 	</Target>
 
-	<Target Name="BeforeBuild" DependsOnTargets="GetBuildVersion">
+	<Target Name="GenerateVersionedAssemblyInfo" DependsOnTargets="GetBuildVersion" BeforeTargets="CoreCompile">
 		<PropertyGroup>
 			<NewVersionCsFile>$(VersionCsFile).new</NewVersionCsFile>
 		</PropertyGroup>
