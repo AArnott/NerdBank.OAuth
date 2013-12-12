@@ -16,14 +16,21 @@
 	</metadata>
 	<files>
 		<file src="$desktopTarget$NerdBank.OAuth.dll" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
+		<file src="$desktopTarget$NerdBank.OAuth.pdb" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
 
 		<file src="$desktopTarget$NerdBank.OAuth.dll" target="lib\net45\" />
 		<file src="$desktopTarget$NerdBank.OAuth.Desktop.dll" target="lib\net45\" />
+		<file src="$desktopTarget$NerdBank.OAuth.pdb" target="lib\net45\" />
+		<file src="$desktopTarget$NerdBank.OAuth.Desktop.pdb" target="lib\net45\" />
 
 		<file src="$winTarget$NerdBank.OAuth.dll" target="lib\win\" />
 		<file src="$winTarget$NerdBank.OAuth.WinRT.dll" target="lib\win\" />
+		<file src="$winTarget$NerdBank.OAuth.pdb" target="lib\win\" />
+		<file src="$winTarget$NerdBank.OAuth.WinRT.pdb" target="lib\win\" />
 
 		<file src="$winPhoneTarget$NerdBank.OAuth.dll" target="lib\wp80\" />
 		<file src="$winPhoneTarget$NerdBank.OAuth.WinPhone8.dll" target="lib\wp80\" />
+		<file src="$winPhoneTarget$NerdBank.OAuth.pdb" target="lib\wp80\" />
+		<file src="$winPhoneTarget$NerdBank.OAuth.WinPhone8.pdb" target="lib\wp80\" />
 	</files>
 </package>
