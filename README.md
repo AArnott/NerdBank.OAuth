@@ -2,7 +2,7 @@ NerdBank.OAuth
 ==========
 
 * OAuth 1.0 Consumer portable class library targeting .NET Framework 4.5,
-Windows Phone 8 and Windows 8.*
+Windows Phone 8 and Windows 8. *
 
 Installing IronPigeon
 ---------------------
