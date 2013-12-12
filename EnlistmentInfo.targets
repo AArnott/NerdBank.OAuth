@@ -10,6 +10,4 @@
 	<PropertyGroup>
 		<DocumentationFile Condition=" '$(NonShipping)' != 'true' and '$(NoDocumentationFile)' != 'true' ">$(OutputPath)$(AssemblyName).xml</DocumentationFile>
 	</PropertyGroup>
-
-	<Import Project="$(ProjectRoot)tools\Versioning.targets"/>
 </Project>
