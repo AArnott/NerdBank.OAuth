@@ -12,6 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NerdBank.OAuth.WinPhone8.Tests</RootNamespace>
     <AssemblyName>NerdBank.OAuth.WinPhone8.Tests</AssemblyName>
+    <NonShipping>true</NonShipping>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
