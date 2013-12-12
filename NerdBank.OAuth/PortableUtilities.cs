@@ -88,6 +88,7 @@
 					sb.Append(builder.Query.Substring(1));
 					sb.Append('&');
 				}
+
 				sb.Append(CreateQueryString(args));
 
 				builder.Query = sb.ToString();
@@ -107,6 +108,7 @@
 			if (!args.Any()) {
 				return string.Empty;
 			}
+
 			StringBuilder sb = new StringBuilder(args.Count() * 10);
 
 			foreach (var p in args) {
@@ -117,6 +119,7 @@
 				sb.Append(EscapeUriDataStringRfc3986(p.Value));
 				sb.Append('&');
 			}
+
 			sb.Length--; // remove trailing &
 
 			return sb.ToString();
@@ -141,6 +144,7 @@
 				authorization.Append(value);
 				authorization.Append("\",");
 			}
+
 			authorization.Length--; // remove trailing comma
 			return authorization.ToString();
 		}
@@ -179,7 +183,7 @@
 
 		internal static NameValueCollection ParseUrlEncodedString(string queryString) {
 			var result = new NameValueCollection();
-			if (String.IsNullOrEmpty(queryString)) {
+			if (string.IsNullOrEmpty(queryString)) {
 				return result;
 			}
 
@@ -224,7 +228,7 @@
 			/// <summary>
 			/// The initializer of all new <see cref="Random"/> instances.
 			/// </summary>
-			private static readonly Random threadRandomInitializer = new Random();
+			private static readonly Random ThreadRandomInitializer = new Random();
 
 			/// <summary>
 			/// A thread-local instance of <see cref="Random"/>
@@ -238,8 +242,8 @@
 			public static Random RandomNumberGenerator {
 				get {
 					if (threadRandom == null) {
-						lock (threadRandomInitializer) {
-							threadRandom = new Random(threadRandomInitializer.Next());
+						lock (ThreadRandomInitializer) {
+							threadRandom = new Random(ThreadRandomInitializer.Next());
 						}
 					}
 

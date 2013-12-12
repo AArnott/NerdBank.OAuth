@@ -14,12 +14,12 @@
 
 	[TestClass]
 	public abstract class OAuth1ConsumerTestsBase {
-		protected static readonly Uri TemporaryCredentialsEndpoint = new Uri("http://localhost/tempcred");
-		protected static readonly Uri AuthorizationEndpoint = new Uri("http://localhost/auth");
 		protected const string ConsumerKey = "some key";
 		protected const string ConsumerSecret = "some secret";
 		protected const string TempCredToken = "tempcred token+%";
 		protected const string TempCredTokenSecret = "tempcred tokensecret+%";
+		protected static readonly Uri TemporaryCredentialsEndpoint = new Uri("http://localhost/tempcred");
+		protected static readonly Uri AuthorizationEndpoint = new Uri("http://localhost/auth");
 
 		protected Func<HttpRequestMessage, Task<HttpResponseMessage>> MockHandler { get; set; }
 
@@ -43,7 +43,8 @@
 			try {
 				await consumer.StartAuthorizationAsync("oob");
 				Assert.Fail("Expected exception not thrown.");
-			} catch (InvalidOperationException) { }
+			} catch (InvalidOperationException) {
+			}
 		}
 
 		[TestMethod]
@@ -54,7 +55,8 @@
 			try {
 				await consumer.StartAuthorizationAsync("oob");
 				Assert.Fail("Expected exception not thrown.");
-			} catch (InvalidOperationException) { }
+			} catch (InvalidOperationException) {
+			}
 		}
 
 		[TestMethod]

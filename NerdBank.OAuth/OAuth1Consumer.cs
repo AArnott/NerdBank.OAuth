@@ -139,11 +139,11 @@ namespace NerdBank.OAuth {
 			Verify.Operation(this.ConsumerKey != null, "ConsumerKey must be initialized first.");
 			Verify.Operation(this.ConsumerSecret != null, "ConsumerSecret must be initialized first.");
 
-			var authorizingHandler = CreateOAuthMessageHandler();
+			var authorizingHandler = this.CreateOAuthMessageHandler();
 			authorizingHandler.AccessToken = string.Empty;
 			authorizingHandler.AccessTokenSecret = string.Empty;
 			using (var httpClient = new HttpClient(authorizingHandler)) {
-				var requestUri = new UriBuilder(TemporaryCredentialsEndpoint);
+				var requestUri = new UriBuilder(this.TemporaryCredentialsEndpoint);
 				requestUri.AppendQueryArgument("oauth_callback", callbackUri);
 
 				var response = await httpClient.PostAsync(requestUri.Uri, new ByteArrayContent(new byte[0]), cancellationToken);
@@ -156,7 +156,7 @@ namespace NerdBank.OAuth {
 				ProtocolException.ThrowIf(string.IsNullOrEmpty(this.TemporaryToken), "Unexpected empty or missing oauth_token parameter in response from service provider.");
 				this.TemporarySecret = argsResponse["oauth_token_secret"];
 
-				var authorizationBuilder = new UriBuilder(AuthorizationEndpoint);
+				var authorizationBuilder = new UriBuilder(this.AuthorizationEndpoint);
 				authorizationBuilder.AppendQueryArgument("oauth_token", this.TemporaryToken);
 				return authorizationBuilder.Uri;
 			}
@@ -197,7 +197,7 @@ namespace NerdBank.OAuth {
 			Verify.Operation(!string.IsNullOrEmpty(this.TemporaryToken), "TemporaryToken and TemporaryTokenSecret properties must be initialized first.");
 
 			var redirectArgs = PortableUtilities.ParseQueryString(callbackUri);
-			Assumes.True(String.Equals(this.TemporaryToken, redirectArgs["oauth_token"], StringComparison.Ordinal));
+			Assumes.True(string.Equals(this.TemporaryToken, redirectArgs["oauth_token"], StringComparison.Ordinal));
 			string verifier = redirectArgs["oauth_verifier"];
 
 			var handler = this.CreateOAuthMessageHandler();
@@ -205,7 +205,7 @@ namespace NerdBank.OAuth {
 			handler.AccessTokenSecret = this.TemporarySecret;
 
 			using (var httpClient = new HttpClient(handler)) {
-				var accessTokenEndpointBuilder = new UriBuilder(AccessTokenEndpoint);
+				var accessTokenEndpointBuilder = new UriBuilder(this.AccessTokenEndpoint);
 				accessTokenEndpointBuilder.AppendQueryArgument("oauth_verifier", verifier);
 				var response = await httpClient.PostAsync(accessTokenEndpointBuilder.Uri, new ByteArrayContent(new byte[0]), cancellationToken);
 				var urlEncodedArgsResponse = await response.Content.ReadAsStringAsync();
