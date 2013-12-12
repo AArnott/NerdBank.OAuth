@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<id>NerdBank.OAuth</id>
+		<version>$NuGetPackageVersion$</version>
+		<title>NerdBank.OAuth</title>
+		<authors>Andrew Arnott</authors>
+		<owners>Andrew Arnott</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>OAuth 1.0 Consumer portable class library targeting .NET Framework 4.5, Windows Phone 8 and Windows 8.</description>
+		<copyright>Copyright © 2013 Andrew Arnott</copyright>
+		<dependencies>
+			<dependency id="Microsoft.Net.Http" version="2.2.18" />
+			<dependency id="Validation" version="2.0.3.13323" />
+		</dependencies>
+		<files>
+			<file src="$desktopTarget$NerdBank.OAuth.dll" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
+
+			<file src="$desktopTarget$NerdBank.OAuth.dll" target="lib\net45\" />
+			<file src="$desktopTarget$NerdBank.OAuth.Desktop.dll" target="lib\net45\" />
+
+			<file src="$winTarget$NerdBank.OAuth.dll" target="lib\win\" />
+			<file src="$winTarget$NerdBank.OAuth.WinRT.dll" target="lib\win\" />
+
+			<file src="$winPhoneTarget$NerdBank.OAuth.dll" target="lib\wp80\" />
+			<file src="$winPhoneTarget$NerdBank.OAuth.WinPhone8.dll" target="lib\wp80\" />
+		</files>
+	</metadata>
+</package>
