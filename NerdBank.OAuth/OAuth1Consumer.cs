@@ -71,7 +71,7 @@ namespace NerdBank.OAuth {
 		/// Gets or sets the temporary credential username (i.e. request token).
 		/// </summary>
 		/// <remarks>
-		/// This property is set by the <see cref="StartAuthorizationAsync"/> method,
+		/// This property is set by the <see cref="StartAuthorizationAsync(string, CancellationToken)"/> method,
 		/// and consumed by the <see cref="CompleteAuthorizationAsync"/> method.
 		/// </remarks>
 		public string TemporaryToken { get; set; }
@@ -80,7 +80,7 @@ namespace NerdBank.OAuth {
 		/// Gets or sets the temporary credential password (i.e. request token secret).
 		/// </summary>
 		/// <remarks>
-		/// This property is set by the <see cref="StartAuthorizationAsync"/> method,
+		/// This property is set by the <see cref="StartAuthorizationAsync(string, CancellationToken)"/> method,
 		/// and consumed by the <see cref="CompleteAuthorizationAsync"/> method.
 		/// </remarks>
 		public string TemporarySecret { get; set; }
@@ -91,7 +91,7 @@ namespace NerdBank.OAuth {
 		/// </summary>
 		/// <remarks>
 		/// This property is set by the <see cref="CompleteAuthorizationAsync"/> method,
-		/// and consumed by the <see cref="CreateOAuthMessageHandler"/> method.
+		/// and consumed by the <see cref="CreateOAuthMessageHandler()"/> method.
 		/// </remarks>
 		public string AccessToken { get; set; }
 
@@ -101,7 +101,7 @@ namespace NerdBank.OAuth {
 		/// </summary>
 		/// <remarks>
 		/// This property is set by the <see cref="CompleteAuthorizationAsync"/> method,
-		/// and consumed by the <see cref="CreateOAuthMessageHandler"/> method.
+		/// and consumed by the <see cref="CreateOAuthMessageHandler()"/> method.
 		/// </remarks>
 		public string AccessTokenSecret { get; set; }
 

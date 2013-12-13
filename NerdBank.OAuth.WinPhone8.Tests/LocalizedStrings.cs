@@ -7,6 +7,8 @@
 	public class LocalizedStrings {
 		private static AppResources localizedResources = new AppResources();
 
-		public AppResources LocalizedResources { get { return localizedResources; } }
+		public AppResources LocalizedResources {
+			get { return localizedResources; }
+		}
 	}
 }

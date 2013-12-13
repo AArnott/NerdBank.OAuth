@@ -49,7 +49,7 @@
 		}
 
 		/// <summary>
-		/// Provides easy access to the root frame of the Phone Application.
+		/// Gets the root frame of the Phone Application.
 		/// </summary>
 		/// <returns>The root frame of the Phone Application.</returns>
 		public static PhoneApplicationFrame RootFrame { get; private set; }
@@ -167,7 +167,6 @@
 		//     ResourceFlowDirection's value should be "RightToLeft"
 		//
 		// For more info on localizing Windows Phone apps see http://go.microsoft.com/fwlink/?LinkId=262072.
-		//
 		private void InitializeLanguage() {
 			try {
 				// Set the font to match the display language defined by the
