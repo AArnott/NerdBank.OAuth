@@ -32,5 +32,15 @@
 		<file src="$winPhoneTarget$NerdBank.OAuth.WinPhone8.dll" target="lib\wp80\" />
 		<file src="$winPhoneTarget$NerdBank.OAuth.pdb" target="lib\wp80\" />
 		<file src="$winPhoneTarget$NerdBank.OAuth.WinPhone8.pdb" target="lib\wp80\" />
+
+		<file src="$ProjectRoot$NerdBank.OAuth\**\*.cs" target="src\NerdBank.OAuth" exclude="$ProjectRoot$NerdBank.OAuth\obj\**" />
+		<file src="$ProjectRoot$NerdBank.OAuth.Desktop\**\*.cs" target="src\NerdBank.OAuth.Desktop" exclude="$ProjectRoot$NerdBank.OAuth.Desktop\obj\**" />
+		<file src="$ProjectRoot$NerdBank.OAuth.WinRT\**\*.cs" target="src\NerdBank.OAuth.WinRT" exclude="$ProjectRoot$NerdBank.OAuth.WinRT\obj\**" />
+		<file src="$ProjectRoot$NerdBank.OAuth.WinPhone8\**\*.cs" target="src\NerdBank.OAuth.WinPhone8" exclude="$ProjectRoot$NerdBank.OAuth.WinPhone8\obj\**" />
+
+		<file src="$PclAssemblyInfo$" target="src\NerdBank.OAuth" />
+		<file src="$DesktopAssemblyInfo$" target="src\NerdBank.OAuth.Desktop" />
+		<file src="$WinAssemblyInfo$" target="src\NerdBank.OAuth.WinRT" />
+		<file src="$WinPhoneAssemblyInfo$" target="src\NerdBank.OAuth.WinPhone8" />
 	</files>
 </package>
