@@ -33,14 +33,6 @@ namespace NerdBank.OAuth {
 		}
 
 		/// <summary>
-		/// Computes the message authentication code for the specified data and key using the HMAC-SHA1 algorithm.
-		/// </summary>
-		/// <param name="data">The data to be signed.</param>
-		/// <param name="key">The key used for computing the authentication code.</param>
-		/// <returns>The message authentication code.</returns>
-		protected abstract byte[] ComputeHmacSha1(byte[] data, byte[] key);
-
-		/// <summary>
 		/// Gets the signature method to include in the oauth_signature_method parameter.
 		/// </summary>
 		/// <value>
@@ -49,6 +41,14 @@ namespace NerdBank.OAuth {
 		protected override string SignatureMethod {
 			get { return "HMAC-SHA1"; }
 		}
+
+		/// <summary>
+		/// Computes the message authentication code for the specified data and key using the HMAC-SHA1 algorithm.
+		/// </summary>
+		/// <param name="data">The data to be signed.</param>
+		/// <param name="key">The key used for computing the authentication code.</param>
+		/// <returns>The message authentication code.</returns>
+		protected abstract byte[] ComputeHmacSha1(byte[] data, byte[] key);
 
 		/// <summary>
 		/// Calculates the signature for the specified buffer.

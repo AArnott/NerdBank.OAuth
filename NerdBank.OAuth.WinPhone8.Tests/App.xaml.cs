@@ -1,36 +1,32 @@
-﻿using System;
-using System.Diagnostics;
-using System.Resources;
-using System.Windows;
-using System.Windows.Markup;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using NerdBank.OAuth.WinPhone8.Tests.Resources;
+﻿namespace NerdBank.OAuth.WinPhone8.Tests {
+	using System;
+	using System.Diagnostics;
+	using System.Resources;
+	using System.Windows;
+	using System.Windows.Markup;
+	using System.Windows.Navigation;
+	using Microsoft.Phone.Controls;
+	using Microsoft.Phone.Shell;
+	using NerdBank.OAuth.WinPhone8.Tests.Resources;
 
-namespace NerdBank.OAuth.WinPhone8.Tests {
 	public partial class App : Application {
-		/// <summary>
-		/// Provides easy access to the root frame of the Phone Application.
-		/// </summary>
-		/// <returns>The root frame of the Phone Application.</returns>
-		public static PhoneApplicationFrame RootFrame { get; private set; }
+		private bool phoneApplicationInitialized = false;
 
 		/// <summary>
-		/// Constructor for the Application object.
+		/// Initializes a new instance of the <see cref="App"/> class.
 		/// </summary>
 		public App() {
 			// Global handler for uncaught exceptions.
-			UnhandledException += Application_UnhandledException;
+			this.UnhandledException += this.Application_UnhandledException;
 
 			// Standard XAML initialization
-			InitializeComponent();
+			this.InitializeComponent();
 
 			// Phone-specific initialization
-			InitializePhoneApplication();
+			this.InitializePhoneApplication();
 
 			// Language display initialization
-			InitializeLanguage();
+			this.InitializeLanguage();
 
 			// Show graphics profiling information while debugging.
 			if (Debugger.IsAttached) {
@@ -38,11 +34,11 @@ namespace NerdBank.OAuth.WinPhone8.Tests {
 				Application.Current.Host.Settings.EnableFrameRateCounter = true;
 
 				// Show the areas of the app that are being redrawn in each frame.
-				//Application.Current.Host.Settings.EnableRedrawRegions = true;
+				////Application.Current.Host.Settings.EnableRedrawRegions = true;
 
 				// Enable non-production analysis visualization mode,
 				// which shows areas of a page that are handed off to GPU with a colored overlay.
-				//Application.Current.Host.Settings.EnableCacheVisualization = true;
+				////Application.Current.Host.Settings.EnableCacheVisualization = true;
 
 				// Prevent the screen from turning off while under the debugger by disabling
 				// the application's idle detection.
@@ -50,8 +46,13 @@ namespace NerdBank.OAuth.WinPhone8.Tests {
 				// and consume battery power when the user is not using the phone.
 				PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
 			}
-
 		}
+
+		/// <summary>
+		/// Gets the root frame of the Phone Application.
+		/// </summary>
+		/// <returns>The root frame of the Phone Application.</returns>
+		public static PhoneApplicationFrame RootFrame { get; private set; }
 
 		// Code to execute when the application is launching (eg, from Start)
 		// This code will not execute when the application is reactivated
@@ -92,56 +93,59 @@ namespace NerdBank.OAuth.WinPhone8.Tests {
 		#region Phone application initialization
 
 		// Avoid double-initialization
-		private bool phoneApplicationInitialized = false;
 
 		// Do not add any additional code to this method
 		private void InitializePhoneApplication() {
-			if (phoneApplicationInitialized)
+			if (this.phoneApplicationInitialized) {
 				return;
+			}
 
 			// Create the frame but don't set it as RootVisual yet; this allows the splash
 			// screen to remain active until the application is ready to render.
 			RootFrame = new PhoneApplicationFrame();
-			RootFrame.Navigated += CompleteInitializePhoneApplication;
+			RootFrame.Navigated += this.CompleteInitializePhoneApplication;
 
 			// Handle navigation failures
-			RootFrame.NavigationFailed += RootFrame_NavigationFailed;
+			RootFrame.NavigationFailed += this.RootFrame_NavigationFailed;
 
 			// Handle reset requests for clearing the backstack
-			RootFrame.Navigated += CheckForResetNavigation;
+			RootFrame.Navigated += this.CheckForResetNavigation;
 
 			// Ensure we don't initialize again
-			phoneApplicationInitialized = true;
+			this.phoneApplicationInitialized = true;
 		}
 
 		// Do not add any additional code to this method
 		private void CompleteInitializePhoneApplication(object sender, NavigationEventArgs e) {
 			// Set the root visual to allow the application to render
-			if (RootVisual != RootFrame)
-				RootVisual = RootFrame;
+			if (this.RootVisual != RootFrame) {
+				this.RootVisual = RootFrame;
+			}
 
 			// Remove this handler since it is no longer needed
-			RootFrame.Navigated -= CompleteInitializePhoneApplication;
+			RootFrame.Navigated -= this.CompleteInitializePhoneApplication;
 		}
 
 		private void CheckForResetNavigation(object sender, NavigationEventArgs e) {
 			// If the app has received a 'reset' navigation, then we need to check
 			// on the next navigation to see if the page stack should be reset
-			if (e.NavigationMode == NavigationMode.Reset)
-				RootFrame.Navigated += ClearBackStackAfterReset;
+			if (e.NavigationMode == NavigationMode.Reset) {
+				RootFrame.Navigated += this.ClearBackStackAfterReset;
+			}
 		}
 
 		private void ClearBackStackAfterReset(object sender, NavigationEventArgs e) {
 			// Unregister the event so it doesn't get called again
-			RootFrame.Navigated -= ClearBackStackAfterReset;
+			RootFrame.Navigated -= this.ClearBackStackAfterReset;
 
 			// Only clear the stack for 'new' (forward) and 'refresh' navigations
-			if (e.NavigationMode != NavigationMode.New && e.NavigationMode != NavigationMode.Refresh)
+			if (e.NavigationMode != NavigationMode.New && e.NavigationMode != NavigationMode.Refresh) {
 				return;
+			}
 
 			// For UI consistency, clear the entire page stack
 			while (RootFrame.RemoveBackEntry() != null) {
-				; // do nothing
+				// do nothing
 			}
 		}
 
@@ -163,7 +167,6 @@ namespace NerdBank.OAuth.WinPhone8.Tests {
 		//     ResourceFlowDirection's value should be "RightToLeft"
 		//
 		// For more info on localizing Windows Phone apps see http://go.microsoft.com/fwlink/?LinkId=262072.
-		//
 		private void InitializeLanguage() {
 			try {
 				// Set the font to match the display language defined by the
@@ -189,7 +192,6 @@ namespace NerdBank.OAuth.WinPhone8.Tests {
 				// ResourceLangauge not being correctly set to a supported language
 				// code or ResourceFlowDirection is set to a value other than LeftToRight
 				// or RightToLeft.
-
 				if (Debugger.IsAttached) {
 					Debugger.Break();
 				}

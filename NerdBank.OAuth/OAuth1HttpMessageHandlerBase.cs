@@ -53,7 +53,7 @@ namespace NerdBank.OAuth {
 		/// <summary>
 		/// The reference date and time for calculating time stamps.
 		/// </summary>
-		private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		/// <summary>
 		/// An array containing simply the amperstand character.
@@ -248,7 +248,7 @@ namespace NerdBank.OAuth {
 		/// <returns>A string representation of the number of seconds since "the epoch".</returns>
 		private static string ToTimeStamp(DateTime dateTime) {
 			Requires.Argument(dateTime.Kind == DateTimeKind.Utc, "dateTime", "UTC time required");
-			TimeSpan ts = dateTime - epoch;
+			TimeSpan ts = dateTime - Epoch;
 			long secondsSinceEpoch = (long)ts.TotalSeconds;
 			return secondsSinceEpoch.ToString(CultureInfo.InvariantCulture);
 		}

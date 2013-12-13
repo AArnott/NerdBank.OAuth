@@ -7,6 +7,9 @@
 	using System.Threading.Tasks;
 	using Validation;
 
+	/// <summary>
+	/// Security and network utility methods.
+	/// </summary>
 	internal static class PortableUtilities {
 		/// <summary>
 		/// The set of characters that are unreserved in RFC 2396 but are NOT unreserved in RFC 3986.
@@ -88,6 +91,7 @@
 					sb.Append(builder.Query.Substring(1));
 					sb.Append('&');
 				}
+
 				sb.Append(CreateQueryString(args));
 
 				builder.Query = sb.ToString();
@@ -107,6 +111,7 @@
 			if (!args.Any()) {
 				return string.Empty;
 			}
+
 			StringBuilder sb = new StringBuilder(args.Count() * 10);
 
 			foreach (var p in args) {
@@ -117,6 +122,7 @@
 				sb.Append(EscapeUriDataStringRfc3986(p.Value));
 				sb.Append('&');
 			}
+
 			sb.Length--; // remove trailing &
 
 			return sb.ToString();
@@ -141,6 +147,7 @@
 				authorization.Append(value);
 				authorization.Append("\",");
 			}
+
 			authorization.Length--; // remove trailing comma
 			return authorization.ToString();
 		}
@@ -177,9 +184,14 @@
 			}
 		}
 
+		/// <summary>
+		/// Decodes a key=value collection by following URI query decoding rules.
+		/// </summary>
+		/// <param name="queryString">The query string.</param>
+		/// <returns>An ordered collection of key=value pairs.</returns>
 		internal static NameValueCollection ParseUrlEncodedString(string queryString) {
 			var result = new NameValueCollection();
-			if (String.IsNullOrEmpty(queryString)) {
+			if (string.IsNullOrEmpty(queryString)) {
 				return result;
 			}
 
@@ -194,6 +206,13 @@
 			return result;
 		}
 
+		/// <summary>
+		/// Decodes the query string of a URI a key=value collection by following URI query decoding rules.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns>
+		/// An ordered collection of key=value pairs.
+		/// </returns>
 		internal static NameValueCollection ParseQueryString(this Uri url) {
 			return ParseUrlEncodedString(url.Query.Length > 1 ? url.Query.Substring(1) : null);
 		}
@@ -224,7 +243,7 @@
 			/// <summary>
 			/// The initializer of all new <see cref="Random"/> instances.
 			/// </summary>
-			private static readonly Random threadRandomInitializer = new Random();
+			private static readonly Random ThreadRandomInitializer = new Random();
 
 			/// <summary>
 			/// A thread-local instance of <see cref="Random"/>
@@ -238,8 +257,8 @@
 			public static Random RandomNumberGenerator {
 				get {
 					if (threadRandom == null) {
-						lock (threadRandomInitializer) {
-							threadRandom = new Random(threadRandomInitializer.Next());
+						lock (ThreadRandomInitializer) {
+							threadRandom = new Random(ThreadRandomInitializer.Next());
 						}
 					}
 
