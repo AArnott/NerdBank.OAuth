@@ -64,6 +64,7 @@
     <Compile Include="OAuth1HmacSha1ConsumerDesktopTests.cs" />
     <Compile Include="OAuth1HmacSha1ConsumerTestsBase.cs" />
     <Compile Include="OAuth1HmacSha1HttpMessageHandlerTests.cs" />
+    <Compile Include="OAuth1HttpMessageHandlerBaseTests.cs" />
     <Compile Include="OAuth1PlainTextMessageHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -11,11 +11,15 @@
 #endif
 
 	[TestClass]
-	public class OAuth1PlainTextMessageHandlerTests {
+	public class OAuth1PlainTextMessageHandlerTests : OAuth1HttpMessageHandlerBaseTests {
 		[TestMethod]
 		public void SignatureMethod() {
 			var derived = new OAuth1PlainTextMessageHandlerDerived();
 			Assert.AreEqual("PLAINTEXT", derived.SignatureMethod);
+		}
+
+		protected override OAuth1HttpMessageHandlerBase CreateInstance() {
+			return new OAuth1PlainTextMessageHandler();
 		}
 
 		private class OAuth1PlainTextMessageHandlerDerived : OAuth1PlainTextMessageHandler {

@@ -83,6 +83,9 @@
     <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1HmacSha1HttpMessageHandlerTests.cs">
       <Link>OAuth1HmacSha1HttpMessageHandlerTests.cs</Link>
     </Compile>
+    <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1HttpMessageHandlerBaseTests.cs">
+      <Link>OAuth1HttpMessageHandlerBaseTests.cs</Link>
+    </Compile>
     <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1PlainTextMessageHandlerTests.cs">
       <Link>OAuth1PlainTextMessageHandlerTests.cs</Link>
     </Compile>
