@@ -2,6 +2,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Net;
 	using System.Net.Http;
 	using System.Text;
 	using System.Text.RegularExpressions;
@@ -64,7 +65,15 @@
 			this.MockHandler = async req => {
 				Assert.AreEqual(TemporaryCredentialsEndpoint, req.RequestUri);
 				Assert.AreEqual(HttpMethod.Post, req.Method);
-				Assert.IsTrue(Regex.IsMatch(req.Headers.Authorization.Parameter, @"\boauth_callback=""oob"""));
+				var oauthArgs = ParseAuthorizationHeader(req.Headers.Authorization.Parameter);
+				Assert.AreEqual("oob", oauthArgs["oauth_callback"]);
+				Assert.AreEqual(ConsumerKey, oauthArgs["oauth_consumer_key"]);
+				Assert.IsTrue(string.IsNullOrEmpty(oauthArgs["oauth_token"]));
+				Assert.IsFalse(string.IsNullOrEmpty(oauthArgs["oauth_signature_method"]));
+				Assert.IsFalse(string.IsNullOrEmpty(oauthArgs["oauth_timestamp"]));
+				Assert.IsFalse(string.IsNullOrEmpty(oauthArgs["oauth_nonce"]));
+				Assert.AreEqual("1.0", oauthArgs["oauth_version"]);
+
 				string requestContent = await req.Content.ReadAsStringAsync();
 				Assert.AreEqual(string.Empty, requestContent);
 
@@ -89,6 +98,28 @@
 		}
 
 		protected abstract OAuth1Consumer CreateInstance();
+
+		protected static NameValueCollection ParseAuthorizationHeader(string headerParameter) {
+			var result = new NameValueCollection();
+			if (string.IsNullOrEmpty(headerParameter)) {
+				return result;
+			}
+
+			foreach (var pair in headerParameter.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) {
+				var tuple = pair.Split('=');
+				if (tuple.Length == 2) {
+					// http://blogs.msdn.com/b/yangxind/archive/2006/11/09/don-t-use-net-system-uri-unescapedatastring-in-url-decoding.aspx
+					string key = WebUtility.UrlDecode(tuple[0]);
+					string encodedValue = tuple[1];
+					if (encodedValue.Length >= 2 && encodedValue[0] == '"' && encodedValue[encodedValue.Length - 1] == '"') {
+						string value = WebUtility.UrlDecode(encodedValue.Substring(1, encodedValue.Length - 2));
+						result.Add(key, value);
+					}
+				}
+			}
+
+			return result;
+		}
 
 		private class MockMessageHandlerClass : HttpMessageHandler {
 			private readonly OAuth1ConsumerTestsBase tests;
