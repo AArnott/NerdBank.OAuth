@@ -80,6 +80,12 @@
     <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1HmacSha1ConsumerTestsBase.cs">
       <Link>OAuth1HmacSha1ConsumerTestsBase.cs</Link>
     </Compile>
+    <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1HmacSha1HttpMessageHandlerTests.cs">
+      <Link>OAuth1HmacSha1HttpMessageHandlerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1PlainTextMessageHandlerTests.cs">
+      <Link>OAuth1PlainTextMessageHandlerTests.cs</Link>
+    </Compile>
     <Compile Include="..\NerdBank.OAuth\PortableUtilities.cs">
       <Link>PortableUtilities.cs</Link>
     </Compile>
