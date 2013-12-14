@@ -15,6 +15,8 @@
 
 	[TestClass]
 	public abstract class OAuth1ConsumerTestsBase {
+		protected static readonly Uri ExpectedCallbackUri = new Uri("http://localhost/path?oauth_token=" + Uri.EscapeDataString(TestUtilities.TempCredToken));
+
 		protected Func<HttpRequestMessage, Task<HttpResponseMessage>> MockHandler { get; set; }
 
 		protected HttpMessageHandler MockMessageHandler { get; private set; }
@@ -88,6 +90,50 @@
 			consumer.AuthorizationEndpoint = TestUtilities.AuthorizationEndpoint;
 			var authUri = await consumer.StartAuthorizationAsync("oob");
 			Assert.AreEqual(TestUtilities.AuthorizationEndpoint.AbsoluteUri + "?oauth_token=" + Uri.EscapeDataString(TestUtilities.TempCredToken), authUri.AbsoluteUri);
+		}
+
+		[TestMethod, ExpectedException(typeof(InvalidOperationException))]
+		public async Task CompleteAuthorizationAsyncUninitializedTemporaryToken() {
+			var consumer = this.CreateInstance();
+			consumer.HttpMessageHandler = this.MockMessageHandler;
+			consumer.ConsumerKey = TestUtilities.ConsumerKey;
+			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
+			consumer.AccessTokenEndpoint = TestUtilities.AccessTokenEndpoint;
+			consumer.TemporarySecret = TestUtilities.TempCredTokenSecret;
+			await consumer.CompleteAuthorizationAsync(ExpectedCallbackUri);
+		}
+
+		[TestMethod]
+		public async Task CompleteAuthorizationAsync() {
+			this.MockHandler = async req => {
+				Assert.AreEqual(TestUtilities.AccessTokenEndpoint, req.RequestUri);
+				Assert.AreEqual(HttpMethod.Post, req.Method);
+
+				string requestContent = await req.Content.ReadAsStringAsync();
+				Assert.AreEqual(string.Empty, requestContent);
+				
+				var response = new HttpResponseMessage();
+				response.Content = new FormUrlEncodedContent(
+					new Dictionary<string, string>
+					{
+						{ "oauth_token", TestUtilities.AccessToken },
+						{ "oauth_token_secret", TestUtilities.AccessTokenSecret },
+					});
+				return response;
+			};
+
+			var consumer = this.CreateInstance();
+			consumer.HttpMessageHandler = this.MockMessageHandler;
+			consumer.ConsumerKey = TestUtilities.ConsumerKey;
+			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
+			consumer.AccessTokenEndpoint = TestUtilities.AccessTokenEndpoint;
+			consumer.TemporaryToken = TestUtilities.TempCredToken;
+			consumer.TemporarySecret = TestUtilities.TempCredTokenSecret;
+			await consumer.CompleteAuthorizationAsync(ExpectedCallbackUri);
+			Assert.IsNull(consumer.TemporaryToken);
+			Assert.IsNull(consumer.TemporarySecret);
+			Assert.AreEqual(TestUtilities.AccessToken, consumer.AccessToken);
+			Assert.AreEqual(TestUtilities.AccessTokenSecret, consumer.AccessTokenSecret);
 		}
 
 		protected abstract OAuth1Consumer CreateInstance();

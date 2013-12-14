@@ -192,12 +192,28 @@ namespace NerdBank.OAuth {
 		/// The access token and token secret obtained from the authorization are then
 		/// available in the <see cref="AccessToken"/> and <see cref="AccessTokenSecret"/> properties.
 		/// </returns>
+		public Task CompleteAuthorizationAsync(string callbackUri, CancellationToken cancellationToken = default(CancellationToken)) {
+			Requires.NotNullOrEmpty(callbackUri, "callbackUri");
+			return this.CompleteAuthorizationAsync(new Uri(callbackUri, UriKind.Absolute), cancellationToken);
+		}
+
+		/// <summary>
+		/// Finalizes authorization after the user has completed the authorization steps
+		/// at the user agent.
+		/// </summary>
+		/// <param name="callbackUri">The final URL that the service provider redirected back to to signal that authorization is complete.</param>
+		/// <param name="cancellationToken">A token that may be canceled to abort.</param>
+		/// <returns>
+		/// A task that completes when the authorization has been finalized.
+		/// The access token and token secret obtained from the authorization are then
+		/// available in the <see cref="AccessToken"/> and <see cref="AccessTokenSecret"/> properties.
+		/// </returns>
 		public async Task CompleteAuthorizationAsync(Uri callbackUri, CancellationToken cancellationToken = default(CancellationToken)) {
 			Requires.NotNull(callbackUri, "callbackUri");
 			Verify.Operation(!string.IsNullOrEmpty(this.TemporaryToken), "TemporaryToken and TemporaryTokenSecret properties must be initialized first.");
 
 			var redirectArgs = PortableUtilities.ParseQueryString(callbackUri);
-			Assumes.True(string.Equals(this.TemporaryToken, redirectArgs["oauth_token"], StringComparison.Ordinal));
+			ProtocolException.ThrowIfNot(string.Equals(this.TemporaryToken, redirectArgs["oauth_token"], StringComparison.Ordinal), "oauth_token was not the expected value of \"{0}\".", this.TemporaryToken);
 			string verifier = redirectArgs["oauth_verifier"];
 
 			var handler = this.CreateOAuthMessageHandler();
@@ -208,6 +224,7 @@ namespace NerdBank.OAuth {
 				var accessTokenEndpointBuilder = new UriBuilder(this.AccessTokenEndpoint);
 				accessTokenEndpointBuilder.AppendQueryArgument("oauth_verifier", verifier);
 				var response = await httpClient.PostAsync(accessTokenEndpointBuilder.Uri, new ByteArrayContent(new byte[0]), cancellationToken);
+				ProtocolException.ThrowIf(response.Content == null, "Missing response entity from access token endpoint.");
 				var urlEncodedArgsResponse = await response.Content.ReadAsStringAsync();
 				var argsResponse = PortableUtilities.ParseUrlEncodedString(urlEncodedArgsResponse);
 				response.EnsureSuccessStatusCode();

@@ -11,8 +11,11 @@
 		internal const string ConsumerSecret = "some secret";
 		internal const string TempCredToken = "tempcred token+%";
 		internal const string TempCredTokenSecret = "tempcred tokensecret+%";
+		internal const string AccessToken = "ye old access token+%";
+		internal const string AccessTokenSecret = "be my secret+%";
 		internal static readonly Uri TemporaryCredentialsEndpoint = new Uri("http://localhost/tempcred");
 		internal static readonly Uri AuthorizationEndpoint = new Uri("http://localhost/auth");
+		internal static readonly Uri AccessTokenEndpoint = new Uri("http://localhost/accesstoken");
 
 		internal static NameValueCollection ParseAuthorizationHeader(string headerParameter) {
 			var result = new NameValueCollection();
