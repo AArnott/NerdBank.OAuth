@@ -72,7 +72,7 @@ namespace NerdBank.OAuth {
 		/// </summary>
 		/// <remarks>
 		/// This property is set by the <see cref="StartAuthorizationAsync(string, CancellationToken)"/> method,
-		/// and consumed by the <see cref="CompleteAuthorizationAsync"/> method.
+		/// and consumed by the <see cref="CompleteAuthorizationAsync(string, CancellationToken)"/> method.
 		/// </remarks>
 		public string TemporaryToken { get; set; }
 
@@ -81,7 +81,7 @@ namespace NerdBank.OAuth {
 		/// </summary>
 		/// <remarks>
 		/// This property is set by the <see cref="StartAuthorizationAsync(string, CancellationToken)"/> method,
-		/// and consumed by the <see cref="CompleteAuthorizationAsync"/> method.
+		/// and consumed by the <see cref="CompleteAuthorizationAsync(string, CancellationToken)"/> method.
 		/// </remarks>
 		public string TemporarySecret { get; set; }
 
@@ -90,7 +90,7 @@ namespace NerdBank.OAuth {
 		/// this consumer to the service provider.
 		/// </summary>
 		/// <remarks>
-		/// This property is set by the <see cref="CompleteAuthorizationAsync"/> method,
+		/// This property is set by the <see cref="CompleteAuthorizationAsync(string, CancellationToken)"/> method,
 		/// and consumed by the <see cref="CreateOAuthMessageHandler()"/> method.
 		/// </remarks>
 		public string AccessToken { get; set; }
@@ -100,7 +100,7 @@ namespace NerdBank.OAuth {
 		/// this consumer to the service provider.
 		/// </summary>
 		/// <remarks>
-		/// This property is set by the <see cref="CompleteAuthorizationAsync"/> method,
+		/// This property is set by the <see cref="CompleteAuthorizationAsync(string, CancellationToken)"/> method,
 		/// and consumed by the <see cref="CreateOAuthMessageHandler()"/> method.
 		/// </remarks>
 		public string AccessTokenSecret { get; set; }
@@ -131,7 +131,7 @@ namespace NerdBank.OAuth {
 		/// <remarks>
 		/// This method sets the <see cref="TemporaryToken"/> and <see cref="TemporarySecret"/>
 		/// properties. These values should be preserved (or restored) till the
-		/// <see cref="CompleteAuthorizationAsync"/> method is called.
+		/// <see cref="CompleteAuthorizationAsync(string, CancellationToken)"/> method is called.
 		/// </remarks>
 		public async Task<Uri> StartAuthorizationAsync(string callbackUri, CancellationToken cancellationToken = default(CancellationToken)) {
 			Requires.NotNullOrEmpty(callbackUri, "callbackUri");
@@ -174,7 +174,7 @@ namespace NerdBank.OAuth {
 		/// <remarks>
 		/// This method sets the <see cref="TemporaryToken"/> and <see cref="TemporarySecret"/>
 		/// properties. These values should be preserved (or restored) till the
-		/// <see cref="CompleteAuthorizationAsync"/> method is called.
+		/// <see cref="CompleteAuthorizationAsync(string, CancellationToken)"/> method is called.
 		/// </remarks>
 		public Task<Uri> StartAuthorizationAsync(Uri callbackUri, CancellationToken cancellationToken = default(CancellationToken)) {
 			Requires.NotNull(callbackUri, "callbackUri");

@@ -179,6 +179,15 @@ namespace NerdBank.OAuth {
 		}
 
 		/// <summary>
+		/// Escapes a value for transport in a URI, per RFC 3986.
+		/// </summary>
+		/// <param name="value">The value to escape. Null and empty strings are OK.</param>
+		/// <returns>The escaped value. Never null.</returns>
+		protected static string UrlEscape(string value) {
+			return PortableUtilities.EscapeUriDataStringRfc3986(value ?? string.Empty);
+		}
+
+		/// <summary>
 		/// Sends an HTTP request to the inner handler to send to the server as an asynchronous operation.
 		/// </summary>
 		/// <param name="request">The HTTP request message to send to the server.</param>
@@ -232,15 +241,6 @@ namespace NerdBank.OAuth {
 			builder.Append("&");
 			builder.Append(UrlEscape(this.AccessTokenSecret));
 			return builder.ToString();
-		}
-
-		/// <summary>
-		/// Escapes a value for transport in a URI, per RFC 3986.
-		/// </summary>
-		/// <param name="value">The value to escape. Null and empty strings are OK.</param>
-		/// <returns>The escaped value. Never null.</returns>
-		protected static string UrlEscape(string value) {
-			return PortableUtilities.EscapeUriDataStringRfc3986(value ?? string.Empty);
 		}
 
 		/// <summary>

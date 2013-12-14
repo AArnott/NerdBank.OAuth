@@ -64,9 +64,9 @@ namespace NerdBank.OAuth {
 		/// </returns>
 		protected override string GetSignature(System.Net.Http.HttpRequestMessage request, NameValueCollection oauthParameters) {
 			var builder = new StringBuilder();
-			builder.Append(UrlEscape(this.ConsumerSecret));
+			builder.Append(OAuth1HttpMessageHandlerBase.UrlEscape(this.ConsumerSecret));
 			builder.Append("&");
-			builder.Append(UrlEscape(this.AccessTokenSecret));
+			builder.Append(OAuth1HttpMessageHandlerBase.UrlEscape(this.AccessTokenSecret));
 			return builder.ToString();
 		}
 	}
