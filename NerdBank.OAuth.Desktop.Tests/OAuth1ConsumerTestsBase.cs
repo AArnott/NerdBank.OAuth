@@ -15,13 +15,6 @@
 
 	[TestClass]
 	public abstract class OAuth1ConsumerTestsBase {
-		protected const string ConsumerKey = "some key";
-		protected const string ConsumerSecret = "some secret";
-		protected const string TempCredToken = "tempcred token+%";
-		protected const string TempCredTokenSecret = "tempcred tokensecret+%";
-		protected static readonly Uri TemporaryCredentialsEndpoint = new Uri("http://localhost/tempcred");
-		protected static readonly Uri AuthorizationEndpoint = new Uri("http://localhost/auth");
-
 		protected Func<HttpRequestMessage, Task<HttpResponseMessage>> MockHandler { get; set; }
 
 		protected HttpMessageHandler MockMessageHandler { get; private set; }
@@ -39,8 +32,8 @@
 		[TestMethod]
 		public async Task StartAuthorizationAsyncBeforeTempCredEndpointInitialization() {
 			var consumer = this.CreateInstance();
-			consumer.ConsumerKey = ConsumerKey;
-			consumer.ConsumerSecret = ConsumerSecret;
+			consumer.ConsumerKey = TestUtilities.ConsumerKey;
+			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
 			try {
 				await consumer.StartAuthorizationAsync("oob");
 				Assert.Fail("Expected exception not thrown.");
@@ -51,8 +44,8 @@
 		[TestMethod]
 		public async Task StartAuthorizationAsyncBeforeConsumerSecretEndpointInitialization() {
 			var consumer = this.CreateInstance();
-			consumer.ConsumerKey = ConsumerKey;
-			consumer.TemporaryCredentialsEndpoint = TemporaryCredentialsEndpoint;
+			consumer.ConsumerKey = TestUtilities.ConsumerKey;
+			consumer.TemporaryCredentialsEndpoint = TestUtilities.TemporaryCredentialsEndpoint;
 			try {
 				await consumer.StartAuthorizationAsync("oob");
 				Assert.Fail("Expected exception not thrown.");
@@ -63,11 +56,11 @@
 		[TestMethod]
 		public async Task StartAuthorizationAsync() {
 			this.MockHandler = async req => {
-				Assert.AreEqual(TemporaryCredentialsEndpoint, req.RequestUri);
+				Assert.AreEqual(TestUtilities.TemporaryCredentialsEndpoint, req.RequestUri);
 				Assert.AreEqual(HttpMethod.Post, req.Method);
-				var oauthArgs = ParseAuthorizationHeader(req.Headers.Authorization.Parameter);
+				var oauthArgs = TestUtilities.ParseAuthorizationHeader(req.Headers.Authorization.Parameter);
 				Assert.AreEqual("oob", oauthArgs["oauth_callback"]);
-				Assert.AreEqual(ConsumerKey, oauthArgs["oauth_consumer_key"]);
+				Assert.AreEqual(TestUtilities.ConsumerKey, oauthArgs["oauth_consumer_key"]);
 				Assert.IsTrue(string.IsNullOrEmpty(oauthArgs["oauth_token"]));
 				Assert.IsFalse(string.IsNullOrEmpty(oauthArgs["oauth_signature_method"]));
 				Assert.IsFalse(string.IsNullOrEmpty(oauthArgs["oauth_timestamp"]));
@@ -81,42 +74,20 @@
 					Content = new FormUrlEncodedContent(
 						new Dictionary<string, string> {
 							{ "oauth_callback_confirmed", "true" },
-							{ "oauth_token", TempCredToken },
-							{ "oauth_token_secret", TempCredTokenSecret },
+							{ "oauth_token", TestUtilities.TempCredToken },
+							{ "oauth_token_secret", TestUtilities.TempCredTokenSecret },
 						}),
 				};
 			};
 
 			var consumer = this.CreateInstance();
 			consumer.HttpMessageHandler = this.MockMessageHandler;
-			consumer.ConsumerKey = ConsumerKey;
-			consumer.ConsumerSecret = ConsumerSecret;
-			consumer.TemporaryCredentialsEndpoint = TemporaryCredentialsEndpoint;
-			consumer.AuthorizationEndpoint = AuthorizationEndpoint;
+			consumer.ConsumerKey = TestUtilities.ConsumerKey;
+			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
+			consumer.TemporaryCredentialsEndpoint = TestUtilities.TemporaryCredentialsEndpoint;
+			consumer.AuthorizationEndpoint = TestUtilities.AuthorizationEndpoint;
 			var authUri = await consumer.StartAuthorizationAsync("oob");
-			Assert.AreEqual(AuthorizationEndpoint.AbsoluteUri + "?oauth_token=" + Uri.EscapeDataString(TempCredToken), authUri.AbsoluteUri);
-		}
-
-		protected static NameValueCollection ParseAuthorizationHeader(string headerParameter) {
-			var result = new NameValueCollection();
-			if (string.IsNullOrEmpty(headerParameter)) {
-				return result;
-			}
-
-			foreach (var pair in headerParameter.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) {
-				var tuple = pair.Split('=');
-				if (tuple.Length == 2) {
-					// http://blogs.msdn.com/b/yangxind/archive/2006/11/09/don-t-use-net-system-uri-unescapedatastring-in-url-decoding.aspx
-					string key = WebUtility.UrlDecode(tuple[0]);
-					string encodedValue = tuple[1];
-					if (encodedValue.Length >= 2 && encodedValue[0] == '"' && encodedValue[encodedValue.Length - 1] == '"') {
-						string value = WebUtility.UrlDecode(encodedValue.Substring(1, encodedValue.Length - 2));
-						result.Add(key, value);
-					}
-				}
-			}
-
-			return result;
+			Assert.AreEqual(TestUtilities.AuthorizationEndpoint.AbsoluteUri + "?oauth_token=" + Uri.EscapeDataString(TestUtilities.TempCredToken), authUri.AbsoluteUri);
 		}
 
 		protected abstract OAuth1Consumer CreateInstance();

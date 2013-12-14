@@ -67,6 +67,7 @@
     <Compile Include="OAuth1HttpMessageHandlerBaseTests.cs" />
     <Compile Include="OAuth1PlainTextMessageHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

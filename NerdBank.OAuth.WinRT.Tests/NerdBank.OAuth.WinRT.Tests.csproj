@@ -131,6 +131,9 @@
     <Compile Include="..\NerdBank.OAuth.Desktop.Tests\OAuth1PlainTextMessageHandlerTests.cs">
       <Link>OAuth1PlainTextMessageHandlerTests.cs</Link>
     </Compile>
+    <Compile Include="..\NerdBank.OAuth.Desktop.Tests\TestUtilities.cs">
+      <Link>TestUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\NerdBank.OAuth\PortableUtilities.cs">
       <Link>PortableUtilities.cs</Link>
     </Compile>

@@ -154,6 +154,8 @@ namespace NerdBank.OAuth {
 		/// <param name="request">The request.</param>
 		public void ApplyAuthorization(HttpRequestMessage request) {
 			Requires.NotNull(request, "request");
+			Verify.Operation(this.ConsumerKey != null, "Not yet initialized.");
+			Verify.Operation(this.ConsumerSecret != null, "Not yet initialized.");
 
 			var oauthParameters = this.GetOAuthParameters();
 			string signature = this.GetSignature(request, oauthParameters);
@@ -226,9 +228,9 @@ namespace NerdBank.OAuth {
 		/// </remarks>
 		protected string GetConsumerAndTokenSecretString() {
 			var builder = new StringBuilder();
-			builder.Append(UrlEscape(this.ConsumerSecret ?? string.Empty));
+			builder.Append(UrlEscape(this.ConsumerSecret));
 			builder.Append("&");
-			builder.Append(UrlEscape(this.AccessTokenSecret ?? string.Empty));
+			builder.Append(UrlEscape(this.AccessTokenSecret));
 			return builder.ToString();
 		}
 
@@ -237,7 +239,7 @@ namespace NerdBank.OAuth {
 		/// </summary>
 		/// <param name="value">The value to escape. Null and empty strings are OK.</param>
 		/// <returns>The escaped value. Never null.</returns>
-		private static string UrlEscape(string value) {
+		protected static string UrlEscape(string value) {
 			return PortableUtilities.EscapeUriDataStringRfc3986(value ?? string.Empty);
 		}
 
