@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NerdBank.OAuth.Tests</RootNamespace>
-    <AssemblyName>NerdBank.OAuth.Tests</AssemblyName>
+    <AssemblyName>NerdBank.OAuth.Desktop.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NonShipping>true</NonShipping>
