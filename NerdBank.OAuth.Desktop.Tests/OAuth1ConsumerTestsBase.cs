@@ -97,8 +97,6 @@
 			Assert.AreEqual(AuthorizationEndpoint.AbsoluteUri + "?oauth_token=" + Uri.EscapeDataString(TempCredToken), authUri.AbsoluteUri);
 		}
 
-		protected abstract OAuth1Consumer CreateInstance();
-
 		protected static NameValueCollection ParseAuthorizationHeader(string headerParameter) {
 			var result = new NameValueCollection();
 			if (string.IsNullOrEmpty(headerParameter)) {
@@ -120,6 +118,8 @@
 
 			return result;
 		}
+
+		protected abstract OAuth1Consumer CreateInstance();
 
 		private class MockMessageHandlerClass : HttpMessageHandler {
 			private readonly OAuth1ConsumerTestsBase tests;
