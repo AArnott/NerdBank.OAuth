@@ -40,6 +40,14 @@ namespace NerdBank.OAuth {
 		}
 
 		/// <summary>
+		/// Gets or sets the signing algorithm.
+		/// </summary>
+		/// <value>
+		/// The signing algorithm.
+		/// </value>
+		public SigningAlgorithm SigningAlgorithm { get; set; }
+
+		/// <summary>
 		/// Gets or sets the consumer key previously obtained from the service provider.
 		/// </summary>
 		public string ConsumerKey { get; set; }
@@ -272,7 +280,14 @@ namespace NerdBank.OAuth {
 		/// <see cref="AccessToken"/> and <see cref="AccessTokenSecret"/>.
 		/// </remarks>
 		protected virtual OAuth1HttpMessageHandlerBase CreateOAuthMessageHandlerCore(HttpMessageHandler innerHandler) {
-			return new OAuth1PlainTextMessageHandler(innerHandler);
+			switch (this.SigningAlgorithm) {
+				case SigningAlgorithm.PlainText:
+					return new OAuth1PlainTextMessageHandler(innerHandler);
+				case SigningAlgorithm.HmacSha1:
+					return new OAuth1HmacSha1HttpMessageHandler(innerHandler);
+				default:
+					throw new NotSupportedException("The signing algorithm is not recognized. Override this method to add support for it.");
+			}
 		}
 	}
 }

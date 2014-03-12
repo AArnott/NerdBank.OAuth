@@ -26,14 +26,9 @@
 		<ItemGroup>
 			<NuGetProperties Include="Version=$(NuGetPackageVersion)" />
 			<NuGetProperties Include="ProjectRoot=$(ProjectRoot)" />
-			<NuGetProperties Include="DesktopTarget=$(ProjectRoot)NerdBank.OAuth.Desktop\bin\$(Configuration)\" />
-			<NuGetProperties Include="WinTarget=$(ProjectRoot)NerdBank.OAuth.WinRT\bin\$(Configuration)\" />
-			<NuGetProperties Include="WinPhoneTarget=$(ProjectRoot)NerdBank.OAuth.WinPhone8\bin\$(Configuration)\" />
+			<NuGetProperties Include="TargetPath=$(ProjectRoot)NerdBank.OAuth\bin\$(Configuration)\" />
 
-			<NuGetProperties Include="PclAssemblyInfo=$(ProjectRoot)obj\AnyCPU\$(Configuration)\NerdBank.OAuth.version.cs" />
-			<NuGetProperties Include="DesktopAssemblyInfo=$(ProjectRoot)obj\AnyCPU\$(Configuration)\NerdBank.OAuth.Desktop.version.cs" />
-			<NuGetProperties Include="WinAssemblyInfo=$(ProjectRoot)obj\AnyCPU\$(Configuration)\NerdBank.OAuth.WinRT.version.cs" />
-			<NuGetProperties Include="WinPhoneAssemblyInfo=$(ProjectRoot)obj\AnyCPU\$(Configuration)\NerdBank.OAuth.WinPhone8.version.cs" />
+			<NuGetProperties Include="IntermediatePath=$(ProjectRoot)obj\AnyCPU\$(Configuration)\" />
 		</ItemGroup>
 
 		<ItemGroup>

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OAuth1HmacSha1HttpMessageHandlerBase.cs" company="Andrew Arnott">
+// <copyright file="OAuth1HmacSha1HttpMessageHandler.cs" company="Andrew Arnott">
 //     Copyright (c) Andrew Arnott. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -11,24 +11,25 @@ namespace NerdBank.OAuth {
 	using System.Net.Http;
 	using System.Text;
 	using System.Threading.Tasks;
+	using PCLCrypto;
 	using Validation;
 
 	/// <summary>
 	/// A delegating HTTP handler that signs outgoing HTTP requests 
 	/// with an HMAC-SHA1 signature.
 	/// </summary>
-	public abstract class OAuth1HmacSha1HttpMessageHandlerBase : OAuth1HttpMessageHandlerBase {
+	public class OAuth1HmacSha1HttpMessageHandler : OAuth1HttpMessageHandlerBase {
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuth1HmacSha1HttpMessageHandlerBase"/> class.
+		/// Initializes a new instance of the <see cref="OAuth1HmacSha1HttpMessageHandler"/> class.
 		/// </summary>
-		protected OAuth1HmacSha1HttpMessageHandlerBase() {
+		public OAuth1HmacSha1HttpMessageHandler() {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuth1HmacSha1HttpMessageHandlerBase"/> class.
+		/// Initializes a new instance of the <see cref="OAuth1HmacSha1HttpMessageHandler"/> class.
 		/// </summary>
 		/// <param name="innerHandler">The inner handler which is responsible for processing the HTTP response messages.</param>
-		protected OAuth1HmacSha1HttpMessageHandlerBase(HttpMessageHandler innerHandler)
+		public OAuth1HmacSha1HttpMessageHandler(HttpMessageHandler innerHandler)
 			: base(innerHandler) {
 		}
 
@@ -48,7 +49,13 @@ namespace NerdBank.OAuth {
 		/// <param name="data">The data to be signed.</param>
 		/// <param name="key">The key used for computing the authentication code.</param>
 		/// <returns>The message authentication code.</returns>
-		protected abstract byte[] ComputeHmacSha1(byte[] data, byte[] key);
+		protected byte[] ComputeHmacSha1(byte[] data, byte[] key) {
+			var algorithm = WinRTCrypto.MacAlgorithmProvider.OpenAlgorithm(MacAlgorithm.HmacSha1);
+			using (var hasher = algorithm.CreateHash(key)) {
+				hasher.Append(data);
+				return hasher.GetValueAndReset();
+			}
+		}
 
 		/// <summary>
 		/// Calculates the signature for the specified buffer.

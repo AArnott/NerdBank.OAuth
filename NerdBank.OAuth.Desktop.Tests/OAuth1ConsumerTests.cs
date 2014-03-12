@@ -14,7 +14,7 @@
 #endif
 
 	[TestClass]
-	public abstract class OAuth1ConsumerTestsBase {
+	public class OAuth1ConsumerTests {
 		protected static readonly Uri ExpectedCallbackUri = new Uri("http://localhost/path?oauth_token=" + Uri.EscapeDataString(TestUtilities.TempCredToken));
 
 		protected Func<HttpRequestMessage, Task<HttpResponseMessage>> MockHandler { get; set; }
@@ -28,12 +28,19 @@
 
 		[TestMethod]
 		public void DefaultCtor() {
-			var consumer = this.CreateInstance();
+			var consumer = new OAuth1Consumer();
+		}
+
+		[TestMethod]
+		public void InitializingCtor() {
+			var consumer = new OAuth1Consumer(TestUtilities.ConsumerKey, TestUtilities.ConsumerSecret);
+			Assert.AreEqual(TestUtilities.ConsumerKey, consumer.ConsumerKey);
+			Assert.AreEqual(TestUtilities.ConsumerSecret, consumer.ConsumerSecret);
 		}
 
 		[TestMethod]
 		public void IsAuthorized() {
-			var consumer = this.CreateInstance();
+			var consumer = new OAuth1Consumer();
 			Assert.IsFalse(consumer.IsAuthorized);
 			consumer.AccessToken = TestUtilities.AccessToken;
 			Assert.IsFalse(consumer.IsAuthorized); // just AccessToken
@@ -47,7 +54,7 @@
 
 		[TestMethod]
 		public async Task StartAuthorizationAsyncBeforeTempCredEndpointInitialization() {
-			var consumer = this.CreateInstance();
+			var consumer = new OAuth1Consumer();
 			consumer.ConsumerKey = TestUtilities.ConsumerKey;
 			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
 			try {
@@ -59,7 +66,7 @@
 
 		[TestMethod]
 		public async Task StartAuthorizationAsyncBeforeConsumerSecretEndpointInitialization() {
-			var consumer = this.CreateInstance();
+			var consumer = new OAuth1Consumer();
 			consumer.ConsumerKey = TestUtilities.ConsumerKey;
 			consumer.TemporaryCredentialsEndpoint = TestUtilities.TemporaryCredentialsEndpoint;
 			try {
@@ -96,7 +103,7 @@
 				};
 			};
 
-			var consumer = this.CreateInstance();
+			var consumer = new OAuth1Consumer();
 			consumer.HttpMessageHandler = this.MockMessageHandler;
 			consumer.ConsumerKey = TestUtilities.ConsumerKey;
 			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
@@ -133,7 +140,7 @@
 				};
 			};
 
-			var consumer = this.CreateInstance();
+			var consumer = new OAuth1Consumer();
 			consumer.HttpMessageHandler = this.MockMessageHandler;
 			consumer.ConsumerKey = TestUtilities.ConsumerKey;
 			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
@@ -145,7 +152,7 @@
 
 		[TestMethod, ExpectedException(typeof(InvalidOperationException))]
 		public async Task CompleteAuthorizationAsyncUninitializedTemporaryToken() {
-			var consumer = this.CreateInstance();
+			var consumer = new OAuth1Consumer();
 			consumer.HttpMessageHandler = this.MockMessageHandler;
 			consumer.ConsumerKey = TestUtilities.ConsumerKey;
 			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
@@ -173,7 +180,7 @@
 				return response;
 			};
 
-			var consumer = this.CreateInstance();
+			var consumer = new OAuth1Consumer();
 			consumer.HttpMessageHandler = this.MockMessageHandler;
 			consumer.ConsumerKey = TestUtilities.ConsumerKey;
 			consumer.ConsumerSecret = TestUtilities.ConsumerSecret;
@@ -187,12 +194,10 @@
 			Assert.AreEqual(TestUtilities.AccessTokenSecret, consumer.AccessTokenSecret);
 		}
 
-		protected abstract OAuth1Consumer CreateInstance();
-
 		private class MockMessageHandlerClass : HttpMessageHandler {
-			private readonly OAuth1ConsumerTestsBase tests;
+			private readonly OAuth1ConsumerTests tests;
 
-			internal MockMessageHandlerClass(OAuth1ConsumerTestsBase tests) {
+			internal MockMessageHandlerClass(OAuth1ConsumerTests tests) {
 				this.tests = tests;
 			}
 

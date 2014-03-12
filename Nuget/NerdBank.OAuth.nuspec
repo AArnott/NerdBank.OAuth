@@ -12,35 +12,15 @@
 		<dependencies>
 			<dependency id="Microsoft.Net.Http" version="2.2.18" />
 			<dependency id="Validation" version="2.0.3.13323" />
+			<dependency id="PCLCrypto" version="0.3.1-beta" />
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="$desktopTarget$NerdBank.OAuth.dll" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
-		<file src="$desktopTarget$NerdBank.OAuth.pdb" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
-
-		<file src="$desktopTarget$NerdBank.OAuth.dll" target="lib\net45\" />
-		<file src="$desktopTarget$NerdBank.OAuth.Desktop.dll" target="lib\net45\" />
-		<file src="$desktopTarget$NerdBank.OAuth.pdb" target="lib\net45\" />
-		<file src="$desktopTarget$NerdBank.OAuth.Desktop.pdb" target="lib\net45\" />
-
-		<file src="$winTarget$NerdBank.OAuth.dll" target="lib\win\" />
-		<file src="$winTarget$NerdBank.OAuth.WinRT.dll" target="lib\win\" />
-		<file src="$winTarget$NerdBank.OAuth.pdb" target="lib\win\" />
-		<file src="$winTarget$NerdBank.OAuth.WinRT.pdb" target="lib\win\" />
-
-		<file src="$winPhoneTarget$NerdBank.OAuth.dll" target="lib\wp80\" />
-		<file src="$winPhoneTarget$NerdBank.OAuth.WinPhone8.dll" target="lib\wp80\" />
-		<file src="$winPhoneTarget$NerdBank.OAuth.pdb" target="lib\wp80\" />
-		<file src="$winPhoneTarget$NerdBank.OAuth.WinPhone8.pdb" target="lib\wp80\" />
+		<file src="$TargetPath$NerdBank.OAuth.dll" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
+		<file src="$TargetPath$NerdBank.OAuth.pdb" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
+		<file src="$TargetPath$NerdBank.OAuth.xml" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
 
 		<file src="$ProjectRoot$NerdBank.OAuth\**\*.cs" target="src\NerdBank.OAuth" exclude="$ProjectRoot$NerdBank.OAuth\obj\**" />
-		<file src="$ProjectRoot$NerdBank.OAuth.Desktop\**\*.cs" target="src\NerdBank.OAuth.Desktop" exclude="$ProjectRoot$NerdBank.OAuth.Desktop\obj\**" />
-		<file src="$ProjectRoot$NerdBank.OAuth.WinRT\**\*.cs" target="src\NerdBank.OAuth.WinRT" exclude="$ProjectRoot$NerdBank.OAuth.WinRT\obj\**" />
-		<file src="$ProjectRoot$NerdBank.OAuth.WinPhone8\**\*.cs" target="src\NerdBank.OAuth.WinPhone8" exclude="$ProjectRoot$NerdBank.OAuth.WinPhone8\obj\**" />
-
-		<file src="$PclAssemblyInfo$" target="src\NerdBank.OAuth" />
-		<file src="$DesktopAssemblyInfo$" target="src\NerdBank.OAuth.Desktop" />
-		<file src="$WinAssemblyInfo$" target="src\NerdBank.OAuth.WinRT" />
-		<file src="$WinPhoneAssemblyInfo$" target="src\NerdBank.OAuth.WinPhone8" />
+		<file src="$IntermediatePath$NerdBank.OAuth.version.cs" target="src\NerdBank.OAuth" />
 	</files>
 </package>
