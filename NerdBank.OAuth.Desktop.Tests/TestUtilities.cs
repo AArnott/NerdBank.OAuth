@@ -16,6 +16,7 @@
 		internal static readonly Uri TemporaryCredentialsEndpoint = new Uri("http://localhost/tempcred");
 		internal static readonly Uri AuthorizationEndpoint = new Uri("http://localhost/auth");
 		internal static readonly Uri AccessTokenEndpoint = new Uri("http://localhost/accesstoken");
+		internal static readonly Uri CallbackUri = new Uri("http://localhost/callback");
 
 		internal static NameValueCollection ParseAuthorizationHeader(string headerParameter) {
 			var result = new NameValueCollection();

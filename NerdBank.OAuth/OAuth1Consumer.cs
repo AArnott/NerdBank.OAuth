@@ -110,7 +110,7 @@ namespace NerdBank.OAuth {
 		/// the <see cref="AccessToken"/> property.
 		/// </summary>
 		public bool IsAuthorized {
-			get { return !string.IsNullOrEmpty(this.AccessToken); }
+			get { return !string.IsNullOrEmpty(this.AccessToken) && !string.IsNullOrEmpty(this.ConsumerKey); }
 		}
 
 		/// <summary>

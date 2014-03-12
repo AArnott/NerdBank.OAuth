@@ -153,23 +153,6 @@
 		}
 
 		/// <summary>
-		/// Assembles the content of the HTTP Authorization or WWW-Authenticate header.
-		/// </summary>
-		/// <param name="scheme">The scheme.</param>
-		/// <param name="fields">The fields to include.</param>
-		/// <returns>A value prepared for an HTTP header.</returns>
-		internal static string AssembleAuthorizationHeader(string scheme, IEnumerable<KeyValuePair<string, string>> fields) {
-			Requires.NotNullOrEmpty(scheme, "scheme");
-			Requires.NotNull(fields, "fields");
-
-			var authorization = new StringBuilder();
-			authorization.Append(scheme);
-			authorization.Append(" ");
-			authorization.Append(AssembleAuthorizationHeader(fields));
-			return authorization.ToString();
-		}
-
-		/// <summary>
 		/// Enumerates all members of the collection as key=value pairs.
 		/// </summary>
 		/// <param name="nvc">The collection to enumerate.</param>
