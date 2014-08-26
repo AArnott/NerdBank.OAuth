@@ -1,16 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30422.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdBank.OAuth", "NerdBank.OAuth\NerdBank.OAuth.csproj", "{3012DF37-78C8-49A9-8C98-39E60DA9B500}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{620FC3F1-6240-4FFA-96A4-4F7B0840ADC1}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdBank.OAuth.Desktop.Tests", "NerdBank.OAuth.Desktop.Tests\NerdBank.OAuth.Desktop.Tests.csproj", "{EA60507D-799A-4DFC-B779-4D35E8141B91}"
 EndProject
