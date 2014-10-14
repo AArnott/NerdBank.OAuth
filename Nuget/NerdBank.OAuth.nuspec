@@ -16,9 +16,9 @@
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="$TargetPath$NerdBank.OAuth.dll" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
-		<file src="$TargetPath$NerdBank.OAuth.pdb" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
-		<file src="$TargetPath$NerdBank.OAuth.xml" target="lib\portable-net45+wp80+win+MonoAndroid10+MonoTouch10\" />
+		<file src="$TargetPath$NerdBank.OAuth.dll" target="lib\portable-net45+wp80+wpa81+win+MonoAndroid10+MonoTouch10\" />
+		<file src="$TargetPath$NerdBank.OAuth.pdb" target="lib\portable-net45+wp80+wpa81+win+MonoAndroid10+MonoTouch10\" />
+		<file src="$TargetPath$NerdBank.OAuth.xml" target="lib\portable-net45+wp80+wpa81+win+MonoAndroid10+MonoTouch10\" />
 
 		<file src="$ProjectRoot$NerdBank.OAuth\**\*.cs" target="src\NerdBank.OAuth" exclude="$ProjectRoot$NerdBank.OAuth\obj\**" />
 		<file src="$IntermediatePath$NerdBank.OAuth.version.cs" target="src\NerdBank.OAuth" />
