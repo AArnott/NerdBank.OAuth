@@ -10,9 +10,9 @@
 		<description>OAuth 1.0 Consumer portable class library targeting .NET Framework 4.5, Windows Phone 8 and Windows 8.</description>
 		<copyright>Copyright © 2013 Andrew Arnott</copyright>
 		<dependencies>
-			<dependency id="Microsoft.Net.Http" version="2.2.18" />
-			<dependency id="Validation" version="2.0.3.13323" />
-			<dependency id="PCLCrypto" version="0.3.1-beta" />
+			<dependency id="Microsoft.Net.Http" version="2.2.28" />
+			<dependency id="Validation" version="2.0.5.14286" />
+			<dependency id="PCLCrypto" version="0.5.2.14286" />
 		</dependencies>
 	</metadata>
 	<files>
