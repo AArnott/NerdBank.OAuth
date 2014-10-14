@@ -7,7 +7,7 @@
 		<authors>Andrew Arnott</authors>
 		<owners>Andrew Arnott</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>OAuth 1.0 Consumer portable class library targeting .NET Framework 4.5, Windows Phone 8 and Windows 8.</description>
+		<description>OAuth 1.0 Consumer portable class library targeting .NET Framework 4.5, Windows Phone 8, Windows Phone Appx 8.1 and Windows 8.</description>
 		<copyright>Copyright © 2013 Andrew Arnott</copyright>
 		<dependencies>
 			<dependency id="Microsoft.Net.Http" version="2.2.28" />
